@@ -21,6 +21,7 @@
 
         <activity android:name=".BarChartActivity" />
         <activity android:name=".HalfPieChartActivity" />
+        <activity android:name=".FanChartActivity" />
     </application>
 
 </manifest>

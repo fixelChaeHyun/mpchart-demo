@@ -44,7 +44,7 @@ class HalfPieChartActivity : AppCompatActivity() {
         chart = findViewById(R.id.chart)
         chart.setBackgroundColor(Color.WHITE)
 
-//        moveOffScreen()
+        moveOffScreen()
 
         chart.setUsePercentValues(true)
         chart.description.isEnabled = false
@@ -57,6 +57,10 @@ class HalfPieChartActivity : AppCompatActivity() {
         chart.holeRadius = 75f
         chart.transparentCircleRadius = 79f
 
+        /** Fan Chart ... */
+//        chart.holeRadius = 0f
+//        chart.transparentCircleRadius = 0f
+
         /** 중앙에 문구 넣기 */
         chart.centerText = "Center Text\nGolf Score\nStatistics"
         chart.setDrawCenterText(true)
@@ -68,6 +72,9 @@ class HalfPieChartActivity : AppCompatActivity() {
 
         chart.maxAngle = 240f
         chart.rotationAngle = 150f
+
+//        chart.maxAngle = 120f
+//        chart.rotationAngle = 210f
 
 
         setData(4, 100f)
@@ -84,10 +91,8 @@ class HalfPieChartActivity : AppCompatActivity() {
         l.yOffset = 100f
 
         // entry label styling
-
-        // entry label styling
         chart.setEntryLabelColor(Color.WHITE)
-        chart.setEntryLabelTextSize(12f)
+        chart.setEntryLabelTextSize(10f)
     }
 
     private fun setData(count: Int, range: Float) {
@@ -102,8 +107,8 @@ class HalfPieChartActivity : AppCompatActivity() {
             )
         }
         val dataSet = PieDataSet(values, "Score Statistics")
-        dataSet.sliceSpace = 3f
-        dataSet.selectionShift = 5f
+        dataSet.sliceSpace = 1f
+        dataSet.selectionShift = 10f
         dataSet.setColors(*ColorTemplate.MATERIAL_COLORS)
         //dataSet.setSelectionShift(0f);
         val data = PieData(dataSet)
