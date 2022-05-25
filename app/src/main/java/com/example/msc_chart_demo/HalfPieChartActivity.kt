@@ -55,7 +55,7 @@ class HalfPieChartActivity : AppCompatActivity() {
         chart.setTransparentCircleColor(Color.WHITE)
         chart.setTransparentCircleAlpha(150)
         chart.holeRadius = 75f
-        chart.transparentCircleRadius = 79f
+        chart.transparentCircleRadius = 77f
 
         /** Fan Chart ... */
 //        chart.holeRadius = 0f
@@ -86,9 +86,10 @@ class HalfPieChartActivity : AppCompatActivity() {
         l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
         l.orientation = Legend.LegendOrientation.VERTICAL
         l.setDrawInside(false)
+        l.textSize = 12f
         l.xEntrySpace = 7f
         l.yEntrySpace = 5f
-        l.yOffset = 100f
+        l.yOffset = 120f
 
         // entry label styling
         chart.setEntryLabelColor(Color.WHITE)
@@ -107,6 +108,7 @@ class HalfPieChartActivity : AppCompatActivity() {
             )
         }
         val dataSet = PieDataSet(values, "Score Statistics")
+        dataSet.valueTextSize = 15f
         dataSet.sliceSpace = 1f
         dataSet.selectionShift = 10f
         dataSet.setColors(*ColorTemplate.MATERIAL_COLORS)

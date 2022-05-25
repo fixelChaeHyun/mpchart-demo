@@ -2,10 +2,12 @@ package com.example.msc_chart_demo
 
 import android.graphics.Color
 import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
@@ -59,11 +61,8 @@ class BarChartActivity : AppCompatActivity() {
 
         chart.description.isEnabled = false
 
-        chart.setDrawValueAboveBar(false)
-        chart.setMaxVisibleValueCount(10)
-        chart.setPinchZoom(false)
-        chart.isDoubleTapToZoomEnabled = false
         chart.setDrawGridBackground(false)
+        chart.setDrawValueAboveBar(true)
 
         /** X축 설정 */
         val xAxisFormatter = DayAxisValueFormatter(chart)
@@ -72,9 +71,8 @@ class BarChartActivity : AppCompatActivity() {
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
         xAxis.granularity = 1f
-        xAxis.labelCount = 12
+        xAxis.labelCount = 6
         xAxis.valueFormatter = xAxisFormatter
-
 
         /** Y축 설정 */
         var leftAxis = chart.axisLeft
@@ -84,9 +82,10 @@ class BarChartActivity : AppCompatActivity() {
         leftAxis.axisLineColor = Color.GRAY
         leftAxis.spaceTop = 15f
         leftAxis.spaceBottom = 15f
-        leftAxis.axisMinimum = 0f
+        leftAxis.axisMinimum = 60f
 
         var rightAxis = chart.axisRight
+        rightAxis.setDrawLabels(false)
         rightAxis.setDrawGridLines(false)
         rightAxis.setLabelCount(0, true)
         rightAxis.setDrawZeroLine(false)
@@ -96,18 +95,24 @@ class BarChartActivity : AppCompatActivity() {
         l.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
         l.orientation = Legend.LegendOrientation.HORIZONTAL
         l.setDrawInside(false)
-        l.form = Legend.LegendForm.DEFAULT
+        l.form = Legend.LegendForm.CIRCLE
+        l.xEntrySpace = 45f
 
         /** MarkerView 설정 */
         val mv : XYMarkerView = XYMarkerView(this, xAxisFormatter)
         mv.chartView = chart
         chart.marker = mv
 
+        chart.setExtraOffsets(10f, 20f, 10f, 20f)
+        chart.setScaleEnabled(false)
+        chart.setPinchZoom(false)
+        chart.isDoubleTapToZoomEnabled = false
+
         val countX = 12
-        val rangeY = 60f
+        val rangeY = 30f
         setData(countX, rangeY)
 
-        chart.invalidate()
+
     }
 
     private fun setData(count: Int, range: Float) {
@@ -115,9 +120,10 @@ class BarChartActivity : AppCompatActivity() {
         val values = ArrayList<BarEntry>()
         var i = start.toInt()
         while (i < start + count) {
-            val floatVal = (Math.random() * (range + 1)).toFloat()
-            if (Math.random() * 100 < 25) {
-                values.add(BarEntry(i.toFloat(), floatVal, resources.getDrawable(R.drawable.star)))
+            val floatVal = (Math.random() * (range)).toFloat() + 68
+            if (i == 6) {
+                val drawable: Drawable? = this.getDrawable(R.drawable.star)
+                values.add(BarEntry(i.toFloat(), floatVal, drawable))
             } else {
                 values.add(BarEntry(i.toFloat(), floatVal))
             }
@@ -129,11 +135,13 @@ class BarChartActivity : AppCompatActivity() {
         ) {
             set1 = chart.data.getDataSetByIndex(0) as BarDataSet
             set1.values = values
+
             chart.data.notifyDataChanged()
             chart.notifyDataSetChanged()
         } else {
-            set1 = BarDataSet(values, "The year 2017")
+            set1 = BarDataSet(values, "Average Golf Scores for 2021")
             set1.setDrawIcons(false)
+            set1.barBorderWidth = 1f
             val startColor1 = ContextCompat.getColor(this, android.R.color.holo_orange_light)
             val startColor2 = ContextCompat.getColor(this, android.R.color.holo_blue_light)
             val startColor3 = ContextCompat.getColor(this, android.R.color.holo_orange_light)
@@ -150,7 +158,7 @@ class BarChartActivity : AppCompatActivity() {
             dataSets.add(set1)
             val data = BarData(dataSets)
             data.setValueTextSize(10f)
-            data.barWidth = 0.9f
+            data.barWidth = 0.8f
             chart.data = data
         }
     }
