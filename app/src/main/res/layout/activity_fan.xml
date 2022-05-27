@@ -19,10 +19,23 @@
         android:text="Launch angle" />
 
     <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/chart"
+        android:id="@+id/chartA"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:layout_below="@id/btn_first"/>
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/btn_first" />
+
+<!--    <com.github.mikephil.charting.charts.PieChart-->
+<!--        android:id="@+id/chartLeft"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="400dp"-->
+<!--        android:layout_below="@id/btn_first" />-->
+
+<!--    <com.github.mikephil.charting.charts.PieChart-->
+<!--        android:id="@+id/chartRight"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="400dp"-->
+<!--        android:layout_below="@id/btn_first" />-->
 
 
 

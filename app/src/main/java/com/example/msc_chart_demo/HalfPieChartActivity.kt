@@ -44,7 +44,7 @@ class HalfPieChartActivity : AppCompatActivity() {
         chart = findViewById(R.id.chart)
         chart.setBackgroundColor(Color.WHITE)
 
-        moveOffScreen()
+//        moveOffScreen()
 
         chart.setUsePercentValues(true)
         chart.description.isEnabled = false

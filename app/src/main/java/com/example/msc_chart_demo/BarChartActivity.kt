@@ -62,7 +62,7 @@ class BarChartActivity : AppCompatActivity() {
         chart.description.isEnabled = false
 
         chart.setDrawGridBackground(false)
-        chart.setDrawValueAboveBar(true)
+        chart.setDrawValueAboveBar(false)
 
         /** X축 설정 */
         val xAxisFormatter = DayAxisValueFormatter(chart)
@@ -122,9 +122,16 @@ class BarChartActivity : AppCompatActivity() {
         while (i < start + count) {
             val floatVal = (Math.random() * (range)).toFloat() + 68
             if (i == 6) {
+                val drawable: Drawable? = this.getDrawable(R.drawable.ic_baseline_circle_red)
+                values.add(BarEntry(i.toFloat(), floatVal, drawable))
+            } else if (i == 10) {
+                val drawable: Drawable? = this.getDrawable(R.drawable.ic_baseline_square)
+                values.add(BarEntry(i.toFloat(), floatVal, drawable))
+            } else if (i == 11) {
                 val drawable: Drawable? = this.getDrawable(R.drawable.star)
                 values.add(BarEntry(i.toFloat(), floatVal, drawable))
-            } else {
+            }
+            else {
                 values.add(BarEntry(i.toFloat(), floatVal))
             }
             i++
@@ -140,8 +147,9 @@ class BarChartActivity : AppCompatActivity() {
             chart.notifyDataSetChanged()
         } else {
             set1 = BarDataSet(values, "Average Golf Scores for 2021")
-            set1.setDrawIcons(false)
+            set1.setDrawIcons(true)
             set1.barBorderWidth = 1f
+
             val startColor1 = ContextCompat.getColor(this, android.R.color.holo_orange_light)
             val startColor2 = ContextCompat.getColor(this, android.R.color.holo_blue_light)
             val startColor3 = ContextCompat.getColor(this, android.R.color.holo_orange_light)
@@ -152,12 +160,12 @@ class BarChartActivity : AppCompatActivity() {
             val endColor3 = ContextCompat.getColor(this, android.R.color.holo_green_dark)
             val endColor4 = ContextCompat.getColor(this, android.R.color.holo_red_dark)
             val endColor5 = ContextCompat.getColor(this, android.R.color.holo_orange_dark)
-
+            set1.color = startColor1
 
             val dataSets = ArrayList<IBarDataSet>()
             dataSets.add(set1)
             val data = BarData(dataSets)
-            data.setValueTextSize(10f)
+            data.setValueTextSize(9f)
             data.barWidth = 0.8f
             chart.data = data
         }
