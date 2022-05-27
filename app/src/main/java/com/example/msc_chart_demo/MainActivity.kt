@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var button1: Button
     lateinit var button2: Button
     lateinit var button3: Button
+    lateinit var button4: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +24,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         button2.setOnClickListener(this)
         button3 = findViewById(R.id.btn_third)
         button3.setOnClickListener(this)
-
+        button4 = findViewById(R.id.btn_fourth)
+        button4.setOnClickListener(this)
 
     }
 
@@ -43,6 +45,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this, "3번 데모", Toast.LENGTH_SHORT).show()
                 val demoFanChart = Intent(this, FanChartActivity::class.java)
                 startActivity(demoFanChart)
+            }
+            R.id.btn_fourth -> {
+                Toast.makeText(this, "4번 데모", Toast.LENGTH_SHORT).show()
+                val arcDraw = Intent(this, DrawArcActivity::class.java)
+                startActivity(arcDraw)
             }
         }
     }
