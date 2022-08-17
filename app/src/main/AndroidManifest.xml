@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mscchartdemo">
         <activity
+            android:name=".DrawArc4Activity"
+            android:exported="false" />
+        <activity
+            android:name=".DrawArc3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".DrawArc2Activity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -18,7 +27,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".BarChartActivity" />
         <activity android:name=".HalfPieChartActivity" />
         <activity android:name=".FanChartActivity" />

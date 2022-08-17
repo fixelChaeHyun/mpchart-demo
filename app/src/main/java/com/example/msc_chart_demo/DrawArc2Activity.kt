@@ -1,22 +1,19 @@
 package com.example.msc_chart_demo
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.SeekBar
-import androidx.appcompat.app.AppCompatActivity
 import java.lang.Exception
 
-class DrawArcActivity : AppCompatActivity() {
+class DrawArc2Activity : AppCompatActivity() {
 
-    lateinit var arcView : ArcView
+    lateinit var arcView : ArcView2
     lateinit var seekbar : SeekBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_arc_draw)
+        setContentView(R.layout.activity_draw_arc2)
 
         val listener = object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
@@ -31,7 +28,7 @@ class DrawArcActivity : AppCompatActivity() {
                         weight = 4.4f
                 }
 
-                arcView.setFillMiddleWeight(weight)
+//                arcView.setFillMiddleWeight(weight)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -44,7 +41,7 @@ class DrawArcActivity : AppCompatActivity() {
         }
 
         try {
-            arcView = findViewById<ArcView>(R.id.arcView)
+            arcView = findViewById<ArcView2>(R.id.arcView)
             seekbar = findViewById(R.id.seekbar)
 
 
@@ -52,14 +49,9 @@ class DrawArcActivity : AppCompatActivity() {
 //            arcView.setFillMiddleWeight(2f)
 
 
-        } catch (e:Exception) {
+        } catch (e: Exception) {
 
         }
 
-
-
-
-
     }
-
 }

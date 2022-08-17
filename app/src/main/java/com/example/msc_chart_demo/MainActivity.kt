@@ -13,6 +13,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var button2: Button
     lateinit var button3: Button
     lateinit var button4: Button
+    lateinit var button5: Button
+    lateinit var button6: Button
+    lateinit var button7: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         button3.setOnClickListener(this)
         button4 = findViewById(R.id.btn_fourth)
         button4.setOnClickListener(this)
+        button5 = findViewById(R.id.btn_fifth)
+        button5.setOnClickListener(this)
+        button6 = findViewById(R.id.btn_sixth)
+        button6.setOnClickListener(this)
+        button7 = findViewById(R.id.btn_seventh)
+        button7.setOnClickListener(this)
+
 
     }
 
@@ -49,6 +59,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_fourth -> {
                 Toast.makeText(this, "4번 데모", Toast.LENGTH_SHORT).show()
                 val arcDraw = Intent(this, DrawArcActivity::class.java)
+                startActivity(arcDraw)
+            }
+            R.id.btn_fifth -> {
+                Toast.makeText(this, "5번 데모", Toast.LENGTH_SHORT).show()
+                val arcDraw = Intent(this, DrawArc2Activity::class.java)
+                startActivity(arcDraw)
+            }
+            R.id.btn_sixth -> {
+                Toast.makeText(this, "6번 데모", Toast.LENGTH_SHORT).show()
+                val arcDraw = Intent(this, DrawArc3Activity::class.java)
+                startActivity(arcDraw)
+            }
+            R.id.btn_seventh -> {
+                Toast.makeText(this, "7번 데모", Toast.LENGTH_SHORT).show()
+                val arcDraw = Intent(this, DrawArc4Activity::class.java)
                 startActivity(arcDraw)
             }
         }
