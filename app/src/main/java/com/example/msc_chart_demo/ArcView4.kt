@@ -104,7 +104,7 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
    init {
    }
 
-   var fillPercentMiddle = 0.10f
+   var fillPercentMiddle = 0.825f
 
    private fun drawTeeBox(canvas: Canvas, centerX: Float, centerY: Float, smallRadius: Float, largeRadius: Float) {
       canvas.drawCircle(centerX, centerY, largeRadius, teeBoxStyle)
@@ -135,12 +135,12 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
          return
       }
 
-      val calcScreenHeight = screenHeight * 0.65      // 1716
+      val calcScreenHeight = screenHeight * (fillPercentMiddle * 0.788)      // 1716
 
       val halfWidth = screenWidth / 2
       val gapOfHeight = (calcScreenHeight * 0.2).toFloat()
       val halfGapOfHeight = gapOfHeight / 2
-      val topGapOfHeight = (gapOfHeight * 0.6).toFloat()
+      val topGapOfHeight = (gapOfHeight * fillPercentMiddle)
       val bottomGapOfHeight = gapOfHeight - topGapOfHeight
 
       Log.w("ArcView4", "halfWidth: $halfWidth , graphHeight: ${calcScreenHeight},  gapOfHeight: $gapOfHeight"+
@@ -235,5 +235,10 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
 //      val fillY = 100f * fillPercentMiddle
 //      rectMiddle.set(100f + fillX, 100 + fillY, 1000f - fillY, 1000f - fillY)
 //      canvas!!.drawArc(rectMiddle, 240f, 60f, true, paintFillMiddle)
+   }
+
+   fun setFillMiddleWeight(weight: Float) {
+      fillPercentMiddle = weight
+      invalidate()
    }
 }
