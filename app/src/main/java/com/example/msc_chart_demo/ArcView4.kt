@@ -138,37 +138,69 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       val calcScreenHeight = screenHeight * 0.65      // 1716
 
       val halfWidth = screenWidth / 2
-      val gapOfHeight = (calcScreenHeight * 0.18).toFloat()
+      val gapOfHeight = (calcScreenHeight * 0.2).toFloat()
+      val halfGapOfHeight = gapOfHeight / 2
+      val topGapOfHeight = (gapOfHeight * 0.6).toFloat()
+      val bottomGapOfHeight = gapOfHeight - topGapOfHeight
 
-      Log.w("ArcView4", "halfWidth: $halfWidth , graphHeight: ${calcScreenHeight}, gapHeight: $gapOfHeight")
+      Log.w("ArcView4", "halfWidth: $halfWidth , graphHeight: ${calcScreenHeight},  gapOfHeight: $gapOfHeight"+
+              "\nhalfGapHeight: $halfGapOfHeight\", topGapOfHeight: $topGapOfHeight , bottomGapOfHeight: $bottomGapOfHeight")
 
       val leftInset = (calcScreenHeight - screenWidth) / 2  // 이게 1번 Arc의 left 값
-
-      // 티박스 그리기 원형 2개
-      val teeBoxCenterX = halfWidth
-      val teeBoxCenterY = 1400f        // TODO: 마지막 5번째 호 그래프의 Top 에서 + 간격(300)만큼
-      drawTeeBox(canvas, teeBoxCenterX, teeBoxCenterY, 35f, 90f)
 
       /**  부채꼴이 좌우 대칭으로 그려지려면  Rect 는 항상 정사각형이어야한다.*/
       // TODO: 그래프 한번에 5개 비율맞춰서 그려주도록 함수 생성.
       val distanceList = listOf("250", "200", "150", "100", "50")
-      var left = leftInset
-      var right = calcScreenHeight - leftInset
-      val rectFrame1 = RectFrame(-300f, 100f, 1400f, 1800f, -60f, -60F)
+      var left = -leftInset.toFloat()
+      var right = (calcScreenHeight - leftInset).toFloat()
+      var top = 100f
+      var bottom = (calcScreenHeight - top).toFloat()
+      Log.w("ArcView4", " -> left: $left, right: $right, top: $top, bottom: $bottom")
+      Log.e("ArcView4", "[1] left: $left, top: $top, right: $right, bottom: $bottom")
+      val rectFrame1 = RectFrame(left, top, right, bottom, -60f, -60f)
       drawArcLine(canvas, rectFrame1, distanceList[0])
+
+      left = left + halfGapOfHeight
+      right = right - halfGapOfHeight
+      top = top + topGapOfHeight
+      bottom = bottom - bottomGapOfHeight
       // 2번 그래프 - orange
-      val rectFrame2 = RectFrame(-150f, 350f, 1250f, 1750f, -60f, -60f)
+      Log.e("ArcView4", "[2] left: $left, top: $top, right: $right, bottom: $bottom")
+      val rectFrame2 = RectFrame(left, top, right, bottom, -60f, -60f)
       drawArcLine(canvas, rectFrame2, distanceList[1])
+
+      left = left + halfGapOfHeight
+      right = right - halfGapOfHeight
+      top = top + topGapOfHeight
+      bottom = bottom - bottomGapOfHeight
       // 3번 그래프 - orange
-      val rectFrame3 = RectFrame(0f, 600f, 1100f, 1700f, -60f, -60f)
+      Log.e("ArcView4", "[3] left: $left, top: $top, right: $right, bottom: $bottom")
+      val rectFrame3 = RectFrame(left, top, right, bottom, -60f, -60f)
       drawArcLine(canvas, rectFrame3, distanceList[2])
+
+      left = left + halfGapOfHeight
+      right = right - halfGapOfHeight
+      top = top + topGapOfHeight
+      bottom = bottom - bottomGapOfHeight
       // 4번 그래프 - oragne
-      val rectFrame4 = RectFrame(130f, 850f, 950f, 1650f, -60f, -60f)
+      Log.e("ArcView4", "[4] left: $left, top: $top, right: $right, bottom: $bottom")
+      val rectFrame4 = RectFrame(left, top, right, bottom, -60f, -60f)
       drawArcLine(canvas, rectFrame4, distanceList[3])
+
+      left = left + halfGapOfHeight
+      right = right - halfGapOfHeight
+      top = top + topGapOfHeight
+      bottom = bottom - bottomGapOfHeight
       // 5번 그래프 - orange
-      val rectFrame5 = RectFrame(300f, 1100f, 800f, 1600f, -60f, -60f)
+      Log.e("ArcView4", "[5] left: $left, top: $top, right: $right, bottom: $bottom")
+      val rectFrame5 = RectFrame(left, top, right, bottom, -60f, -60f)
       drawArcLine(canvas, rectFrame5, distanceList[4])
 
+      // 티박스 그리기 원형 2개
+      val teeBoxCenterX = halfWidth
+      val teeBoxCenterY = top + topGapOfHeight        // TODO: 마지막 5번째 호 그래프의 Top 에서 + 간격(300)만큼
+      Log.w("ArcView4", "teeBox_x: $teeBoxCenterX, teeBox_y: $teeBoxCenterY")
+      drawTeeBox(canvas, teeBoxCenterX, teeBoxCenterY, 35f, 90f)
 
 
 //      // ===================== Draw balls...  ===========================
