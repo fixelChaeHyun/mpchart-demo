@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var button5: Button
     lateinit var button6: Button
     lateinit var button7: Button
+    lateinit var button8: Button
+    lateinit var buttonCircle: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         button6.setOnClickListener(this)
         button7 = findViewById(R.id.btn_seventh)
         button7.setOnClickListener(this)
-
+        button8 = findViewById(R.id.btn_eighth)
+        button8.setOnClickListener(this)
+        buttonCircle = findViewById(R.id.btn_circle)
+        buttonCircle.setOnClickListener(this)
 
     }
 
@@ -74,6 +79,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_seventh -> {
                 Toast.makeText(this, "7번 데모", Toast.LENGTH_SHORT).show()
                 val arcDraw = Intent(this, DrawArc4Activity::class.java)
+                startActivity(arcDraw)
+            }
+            R.id.btn_eighth -> {
+                Toast.makeText(this, "8번 데모", Toast.LENGTH_SHORT).show()
+                val arcDraw = Intent(this, DrawArc5Activity::class.java)
+                startActivity(arcDraw)
+            }
+            R.id.btn_circle -> {
+                Toast.makeText(this, "Circle 데모", Toast.LENGTH_SHORT).show()
+                val arcDraw = Intent(this, CircleActivity::class.java)
                 startActivity(arcDraw)
             }
         }

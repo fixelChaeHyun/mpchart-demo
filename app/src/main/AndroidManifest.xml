@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mscchartdemo">
         <activity
+            android:name=".CircleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DrawArc5Activity"
+            android:exported="false" />
+        <activity
             android:name=".DrawArc4Activity"
             android:exported="false" />
         <activity

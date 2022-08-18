@@ -9,20 +9,19 @@ import android.widget.Button
 import android.widget.SeekBar
 import java.lang.Exception
 
-class DrawArc4Activity : AppCompatActivity() {
-
-    lateinit var arcView: ArcView4
+class CircleActivity : AppCompatActivity() {
+    lateinit var arcView: ArcView6
     lateinit var seekbar : SeekBar
     lateinit var button : Button
-    lateinit var outlineButton : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_draw_arc4)
+        setContentView(R.layout.activity_circle)
 
         val listener = object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                Log.d("ArcView4", "Seekbar : p1 : $p1 , p2 : $p2")
+                return
+                Log.d("ArcView6", "Seekbar : p1 : $p1 , p2 : $p2")
                 var weight: Float = 0f
                 if (p1 == 0) {
                     weight = 0.01f
@@ -52,7 +51,7 @@ class DrawArc4Activity : AppCompatActivity() {
 
 //        val standardSize: Float = (displaySize.y * 0.65).toFloat()
         try {
-            arcView = findViewById<ArcView4>(R.id.arcView).apply {
+            arcView = findViewById<ArcView6>(R.id.arcView).apply {
                 screenHeight = (displaySize.y).toFloat()
                 screenWidth = (displaySize.x).toFloat()
                 invalidate()
@@ -68,11 +67,6 @@ class DrawArc4Activity : AppCompatActivity() {
         button = findViewById(R.id.btn_title)
         button.setOnClickListener {
             arcView.useCenterLine = !arcView.useCenterLine
-            arcView.invalidate()
-        }
-        outlineButton = findViewById(R.id.btn_outline)
-        outlineButton.setOnClickListener {
-            arcView.setOutline = !arcView.setOutline
             arcView.invalidate()
         }
     }

@@ -8,11 +8,7 @@ import android.view.View
 import androidx.core.view.marginTop
 
 
-class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
-
-   var fillPercentMiddle = 0.825f
-   var useCenterLine = false
-   var setOutline = false
+class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
    data class RectFrame(val left: Float, val top: Float, val right: Float, val bottom: Float, val startAngle: Float, val sweepAngle: Float, val useCenter: Boolean = false)
 
@@ -109,6 +105,8 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
    init {
    }
 
+   var fillPercentMiddle = 0.825f
+   var useCenterLine = false
 
    private fun drawTeeBox(canvas: Canvas, centerX: Float, centerY: Float, smallRadius: Float, largeRadius: Float) {
       canvas.drawCircle(centerX, centerY, largeRadius, teeBoxStyle)
@@ -118,7 +116,7 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
 
    private fun drawArcLine(canvas: Canvas, rect: RectFrame, distanceText: String, paintOption: Paint = graphArcLine) {
       val rectFrame = RectF(rect.left, rect.top, rect.right, rect.bottom)
-      canvas.drawArc(rectFrame, rect.startAngle, rect.sweepAngle, rect.useCenter, graphArcLine)
+      canvas.drawArc(rectFrame, rect.startAngle, rect.sweepAngle, rect.useCenter, paintOption)
 
       // 추가 위치 계산 필요.
       val width = rect.right - rect.left
@@ -133,10 +131,10 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       if (canvas == null) return
 //      val fillPercentMiddle = 0.01f
       var offset = 11f
-      Log.e("ArcView4","testHeight: $screenHeight , screenWidth: $screenWidth")
+      Log.e("ArcView5","testHeight: $screenHeight , screenWidth: $screenWidth")
 
       if (screenHeight < 0) {
-         Log.e("ArcView4", "testSize is not initialized yet.")
+         Log.e("ArcView5", "testSize is not initialized yet.")
          return
       }
 
@@ -145,6 +143,7 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       // ScreenHeight 대신에 비율넣기
       val targetGraphHeight = screenHeight * (fillPercentMiddle * 0.788)      // 1716
       val targetGraphHeightDouble = targetGraphHeight * 2
+      val targetGraphHeightTriple = targetGraphHeight * 3
 
       val startAngle = -60f
       val sweepAngle = -60f
@@ -154,19 +153,19 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       val topOffset = (targetGraphHeight - screenWidth).toFloat()    // Top은 offset 만큼 아래로, 좌우는 1/2만큼씩 안쪽으로 이동.
       // 좌우 1/2만큼 확장, Top은 offset만큼 위로 확대
 
+      val newBottomLineY = (topMargin + targetGraphHeightDouble).toFloat()
+      val newTopOffset = (targetGraphHeightTriple - screenWidth).toFloat()
 
-
-
-      val gapOfHeight = (targetGraphHeight * 0.2).toFloat()    // 5칸으로 분배
+      val gapOfHeight = (targetGraphHeight  * 0.2).toFloat()    // 5칸으로 분배
       val halfGapOfHeight = gapOfHeight / 2
 //      val topGapOfHeight = (gapOfHeight * fillPercentMiddle)
 //      val bottomGapOfHeight = gapOfHeight - topGapOfHeight        // TODO: 바텀 갭은 고정. 상단만 줄어드는 형태로 변경.
 
-      Log.w("ArcView4", "halfWidth: $halfWidth , graphHeight: ${targetGraphHeight}, "+
+      Log.w("ArcView5", "halfWidth: $halfWidth , graphHeight: ${targetGraphHeight}, "+
               "\ngapOfHeight: $gapOfHeight, halfGapHeight: $halfGapOfHeight")
 
       val leftInset = (topOffset) / 2  // 이게 1번 Arc의 left 값
-
+      val newLeftInset = (newTopOffset) / 2
 
       /**  부채꼴이 좌우 대칭으로 그려지려면  Rect 는 항상 정사각형이어야한다.*/
       // TODO: 그래프 한번에 5개 비율맞춰서 그려주도록 함수 생성.
@@ -176,7 +175,7 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       var right = (targetGraphHeight - leftInset).toFloat()
       var top = topMargin
       var bottom = bottomLineY
-      Log.w("ArcView4", " -> left: $left, right: $right, top: $top, bottom: $bottom")
+      Log.w("ArcView5", " -> left: $left, right: $right, top: $top, bottom: $bottom")
 
       // Center Area
 
@@ -185,65 +184,72 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
          canvas.drawArc(centerRectFrame, -85f, -10f, true, ballColors[0])
       }
 
-      if (setOutline) {
-         val endX = halfWidth
-         val endY = bottomLineY
-         val textLeft: Float = ((left) + (width * 0.27)).toFloat()
-         val textRight: Float = (right - (width * 0.27)).toFloat()
-         val textTop: Float = (top + height * 0.044).toFloat()
-         canvas.drawLine(textLeft, textTop, endX, endY, graphArcLine)
-
-         canvas.drawLine(textRight, textTop, endX, endY, graphArcLine)
-      }
-
-//      bottom = bottom * 2
+      bottom = bottom * 2
 //      val rectFrame1 = RectFrame(left, topMargin, screenWidth + (topOffset/2), bottomLineY, -60f, -60f, false)
-      Log.e("ArcView4", "[1] left: $left, top: $top, right: $right, bottom: $bottom")
+      Log.e("ArcView5", "[1] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame1 = RectFrame(left, top, right, bottom, -60f, -60f, useCenterLine)
       drawArcLine(canvas, rectFrame1, distanceList[0])
 
+      // ===========================================================
 
+      if (useCenterLine) {
+         var newLeft = -newLeftInset
+         var newRight = (targetGraphHeightDouble - leftInset).toFloat()
+         var newTop = topMargin
+         var newBottom = newBottomLineY
+         val testRectFrame1 = RectFrame(newLeft, newTop, newRight, newBottom, -80f, -20f, useCenterLine)
+         drawArcLine(canvas, testRectFrame1, "1번", graphArcLine2)
 
+         newLeft = newLeft + gapOfHeight
+         newRight = newRight - gapOfHeight
+
+         newTop = newTop + gapOfHeight
+         newBottom = newBottom - gapOfHeight
+         val testRectFrame2 = RectFrame(newLeft, newTop, newRight, newBottom, -80f, -20f, useCenterLine)
+         drawArcLine(canvas, testRectFrame2, "2번", graphArcLine2)
+      }
 
       left = left + halfGapOfHeight
       right = right - halfGapOfHeight
       top = top + gapOfHeight
-      bottom = bottom
+      bottom = bottom - gapOfHeight
       // 2번 그래프 - orange
-      Log.e("ArcView4", "[2] left: $left, top: $top, right: $right, bottom: $bottom")
+      Log.e("ArcView5", "[2] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame2 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
       drawArcLine(canvas, rectFrame2, distanceList[1])
 
 
-
+      // ===========================================================
       left = left + halfGapOfHeight
       right = right - halfGapOfHeight
       top = top + gapOfHeight
-      bottom = bottom
+      bottom = bottom - gapOfHeight
       // 3번 그래프 - orange
-      Log.e("ArcView4", "[3] left: $left, top: $top, right: $right, bottom: $bottom")
+      Log.e("ArcView5", "[3] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame3 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
       drawArcLine(canvas, rectFrame3, distanceList[2])
 
 
 
+      // ===========================================================
       left = left + halfGapOfHeight
       right = right - halfGapOfHeight
       top = top + gapOfHeight
-      bottom = bottom
+      bottom = bottom - gapOfHeight
       // 4번 그래프 - oragne
-      Log.e("ArcView4", "[4] left: $left, top: $top, right: $right, bottom: $bottom")
+      Log.e("ArcView5", "[4] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame4 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
       drawArcLine(canvas, rectFrame4, distanceList[3])
 
 
 
+      // ===========================================================
       left = left + halfGapOfHeight
       right = right - halfGapOfHeight
       top = top + gapOfHeight
-      bottom = bottom
+      bottom = bottom - gapOfHeight
       // 5번 그래프 - orange
-      Log.e("ArcView4", "[5] left: $left, top: $top, right: $right, bottom: $bottom")
+      Log.e("ArcView5", "[5] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame5 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
       drawArcLine(canvas, rectFrame5, distanceList[4])
 
@@ -252,7 +258,7 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       // 티박스 그리기 원형 2개
       val teeBoxCenterX = halfWidth
       val teeBoxCenterY = bottomLineY        // TODO: 마지막 5번째 호 그래프의 Top 에서 + 간격(300)만큼
-      Log.w("ArcView4", "teeBox_x: $teeBoxCenterX, teeBox_y: $teeBoxCenterY")
+      Log.w("ArcView5", "teeBox_x: $teeBoxCenterX, teeBox_y: $teeBoxCenterY")
       drawTeeBox(canvas, teeBoxCenterX, teeBoxCenterY, 35f * (fillPercentMiddle), 100f * (fillPercentMiddle))
 
 
