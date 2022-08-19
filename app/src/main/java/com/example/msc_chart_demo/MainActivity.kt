@@ -67,27 +67,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(arcDraw)
             }
             R.id.btn_fifth -> {
-                Toast.makeText(this, "5번 데모", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "5번.부채꼴 데모", Toast.LENGTH_SHORT).show()
                 val arcDraw = Intent(this, DrawArc2Activity::class.java)
                 startActivity(arcDraw)
             }
             R.id.btn_sixth -> {
-                Toast.makeText(this, "6번 데모", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "6번.Figma처럼 그리기", Toast.LENGTH_SHORT).show()
                 val arcDraw = Intent(this, DrawArc3Activity::class.java)
                 startActivity(arcDraw)
             }
             R.id.btn_seventh -> {
-                Toast.makeText(this, "7번 데모", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "7번.하단고정(정사각형)", Toast.LENGTH_SHORT).show()
                 val arcDraw = Intent(this, DrawArc4Activity::class.java)
                 startActivity(arcDraw)
             }
             R.id.btn_eighth -> {
-                Toast.makeText(this, "8번 데모", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "8번.하단고정(직사각형)", Toast.LENGTH_SHORT).show()
                 val arcDraw = Intent(this, DrawArc5Activity::class.java)
                 startActivity(arcDraw)
             }
             R.id.btn_circle -> {
-                Toast.makeText(this, "Circle 데모", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "9번.센터고정-원형크롭", Toast.LENGTH_SHORT).show()
                 val arcDraw = Intent(this, CircleActivity::class.java)
                 startActivity(arcDraw)
             }

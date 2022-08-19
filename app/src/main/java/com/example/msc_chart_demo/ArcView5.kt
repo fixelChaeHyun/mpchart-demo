@@ -180,6 +180,8 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
       // Center Area
 
       if (useCenterLine) {
+         val sideRectFrame = RectF(left, 100f, right, bottom*2)
+         canvas.drawArc(sideRectFrame, -70f, -40f, true, ballColors[2])
          val centerRectFrame = RectF(left, 100f, right, bottom * 2)
          canvas.drawArc(centerRectFrame, -85f, -10f, true, ballColors[0])
       }

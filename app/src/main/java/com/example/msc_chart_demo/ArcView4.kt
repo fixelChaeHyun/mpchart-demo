@@ -181,6 +181,8 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       // Center Area
 
       if (useCenterLine) {
+         val sideRectFrame = RectF(left, 100f, right, bottom*2)
+         canvas.drawArc(sideRectFrame, -70f, -40f, true, ballColors[2])
          val centerRectFrame = RectF(left, 100f, right, bottom * 2)
          canvas.drawArc(centerRectFrame, -85f, -10f, true, ballColors[0])
       }
@@ -215,7 +217,6 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       drawArcLine(canvas, rectFrame2, distanceList[1])
 
 
-
       left = left + halfGapOfHeight
       right = right - halfGapOfHeight
       top = top + gapOfHeight
@@ -224,6 +225,11 @@ class ArcView4 constructor(context: Context, attrs: AttributeSet) : View(context
       Log.e("ArcView4", "[3] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame3 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
       drawArcLine(canvas, rectFrame3, distanceList[2])
+
+      if (setOutline) {
+         val sideRectFrame = RectF(left, top, right, (bottom-gapOfHeight) * 2)
+         canvas.drawArc(sideRectFrame, -70f, -40f, true, ballColors[3])
+      }
 
 
 

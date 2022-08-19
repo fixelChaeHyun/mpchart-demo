@@ -142,6 +142,47 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       canvas.drawCircle(screenWidth/2, screenHeight/2, 50f, teeBoxStyle)
       canvas.drawCircle(screenWidth/2, screenHeight/2, 25f, teeBoxSmallStyle)
 
+      val startX = screenWidth/2
+      val startY = screenHeight/2
+
+      val offsetValue = 200f
+      val startAng = -65f
+      val sweepAng = -50f
+
+      var left = startX - offsetValue
+      var top = startY - offsetValue
+      var right = startX + offsetValue
+      var bottom = startY + offsetValue
+      val rect1 = RectFrame(left, top, right, bottom, startAng, sweepAng, true)
+      canvas.drawArc(RectF(rect1.left, rect1.top, rect1.right, rect1.bottom), rect1.startAngle, rect1.sweepAngle, useCenterLine, graphArcLine)
+
+      left -= offsetValue
+      top -= offsetValue
+      right += offsetValue
+      bottom += offsetValue
+
+      var rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
+      canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), rect2.startAngle, rect2.sweepAngle, useCenterLine, graphArcLine2)
+
+      var count = 3
+      while (count > 0) {
+         left -= offsetValue
+         top -= offsetValue
+         right += offsetValue
+         bottom += offsetValue
+
+         rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
+         canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), rect2.startAngle, rect2.sweepAngle, useCenterLine, graphArcLine)
+         count--
+      }
+
+      if (useCenterLine) {
+         val sideRectFrame = RectF(left, top, right, bottom)
+         canvas.drawArc(sideRectFrame, -70f, -40f, true, ballColors[2])
+         val centerRectFrame = RectF(left, top, right, bottom)
+         canvas.drawArc(centerRectFrame, -85f, -10f, true, ballColors[0])
+      }
+
 
 //      // ===================== Draw balls...  ===========================
 //      canvas!!.drawCircle(510f, 820f, 27f, ballColors[0])
