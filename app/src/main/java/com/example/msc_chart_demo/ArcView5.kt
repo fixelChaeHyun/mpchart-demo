@@ -10,97 +10,8 @@ import androidx.core.view.marginTop
 
 class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-   data class RectFrame(val left: Float, val top: Float, val right: Float, val bottom: Float, val startAngle: Float, val sweepAngle: Float, val useCenter: Boolean = false)
-
    var screenHeight: Float = 0f
    var screenWidth: Float = 0f
-
-   private val colorWhite = "#FFFFFF"      // White
-   private val colorPurple = "#A8BBFF"
-   private val colorBlue = "#2554FD"
-   private val colorYellow = "#E8DC00"
-   private val colorOrange = "#FF6702"
-   private val yellowColor = "#FFD500"
-   private val greenColor = "#429F4E"
-
-   private val textSizeForDistance: Float = 32f
-   private val textSizeForClub: Float = 28f
-
-   private val ballColors = listOf<Paint>(
-      Paint().apply {
-         color = Color.parseColor(colorPurple)
-         style = Paint.Style.FILL
-      },
-      Paint().apply {
-         color = Color.parseColor(colorBlue)
-         style = Paint.Style.FILL
-      },
-      Paint().apply {
-         color = Color.parseColor(colorYellow)
-         style = Paint.Style.FILL
-      },
-      Paint().apply {
-         color = Color.parseColor(colorOrange)
-         style = Paint.Style.FILL
-      }
-   )
-
-   val distanceTextStyle = Paint().apply {
-      strokeWidth = 0.5f
-      color = Color.parseColor(colorWhite)
-      style = Paint.Style.FILL_AND_STROKE
-      textSize = textSizeForDistance
-   }
-
-   val distanceTextStyle2 = Paint().apply {
-      strokeWidth = 0.5f
-      color = Color.parseColor(colorBlue)
-      style = Paint.Style.FILL_AND_STROKE
-      textSize = textSizeForDistance
-   }
-
-   val clubTextStyle = Paint().apply {
-      strokeWidth = 0.5f
-      color = Color.parseColor(colorWhite)
-      style = Paint.Style.FILL_AND_STROKE
-      textSize = textSizeForClub
-   }
-
-   val centerLineStyle = Paint().apply {
-      strokeWidth = 3f
-      color = Color.parseColor(colorWhite)
-      style = Paint.Style.STROKE
-      pathEffect = DashPathEffect(floatArrayOf(20f, 10f), 0f)
-   }
-
-   var ballLineStyle = Paint().apply {
-      strokeWidth = 3f
-      color = Color.parseColor(yellowColor)
-      style = Paint.Style.STROKE
-      pathEffect = DashPathEffect(floatArrayOf(5f, 5f), 0f)
-   }
-
-   val teeBoxStyle = Paint().apply {
-      color = Color.parseColor(greenColor)
-      style = Paint.Style.FILL_AND_STROKE
-   }
-
-   val teeBoxSmallStyle = Paint().apply {
-      color = Color.parseColor(colorOrange)
-      style = Paint.Style.FILL_AND_STROKE
-   }
-
-   val graphArcLine = Paint().apply {
-      strokeWidth = 3f
-      color = Color.parseColor(colorWhite)
-      style = Paint.Style.STROKE
-   }
-
-   val graphArcLine2 = Paint().apply {
-      strokeWidth = 5f
-      color = Color.parseColor(colorOrange)
-      style = Paint.Style.STROKE
-   }
 
    init {
    }
@@ -108,23 +19,6 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
    var fillPercentMiddle = 0.825f
    var useCenterLine = false
 
-   private fun drawTeeBox(canvas: Canvas, centerX: Float, centerY: Float, smallRadius: Float, largeRadius: Float) {
-      canvas.drawCircle(centerX, centerY, largeRadius, teeBoxStyle)
-      canvas.drawCircle(centerX, centerY, smallRadius, teeBoxSmallStyle)
-      canvas.drawLine(centerX, 0f, centerX, centerY, centerLineStyle)
-   }
-
-   private fun drawArcLine(canvas: Canvas, rect: RectFrame, distanceText: String, paintOption: Paint = graphArcLine) {
-      val rectFrame = RectF(rect.left, rect.top, rect.right, rect.bottom)
-      canvas.drawArc(rectFrame, rect.startAngle, rect.sweepAngle, rect.useCenter, paintOption)
-
-      // 추가 위치 계산 필요.
-      val width = rect.right - rect.left
-      val height = rect.bottom - rect.top
-      val textLeft: Float = ((rect.left*0.8) + (width * 0.17)).toFloat()
-      val textTop: Float = (rect.top + height * 0.07).toFloat()
-      canvas.drawText(distanceText, textLeft, textTop, distanceTextStyle)
-   }
 
    override fun onDraw(canvas: Canvas?) {
       super.onDraw(canvas)
@@ -181,16 +75,16 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
 
       if (useCenterLine) {
          val sideRectFrame = RectF(left, 100f, right, bottom*2)
-         canvas.drawArc(sideRectFrame, -70f, -40f, true, ballColors[2])
+         canvas.drawArc(sideRectFrame, -70f, -40f, true, Const.ballColors[2])
          val centerRectFrame = RectF(left, 100f, right, bottom * 2)
-         canvas.drawArc(centerRectFrame, -85f, -10f, true, ballColors[0])
+         canvas.drawArc(centerRectFrame, -85f, -10f, true, Const.ballColors[0])
       }
 
       bottom = bottom * 2
 //      val rectFrame1 = RectFrame(left, topMargin, screenWidth + (topOffset/2), bottomLineY, -60f, -60f, false)
       Log.e("ArcView5", "[1] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame1 = RectFrame(left, top, right, bottom, -60f, -60f, useCenterLine)
-      drawArcLine(canvas, rectFrame1, distanceList[0])
+      DrawUtil.drawArcLine(canvas, rectFrame1, distanceList[0])
 
       // ===========================================================
 
@@ -200,7 +94,7 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
          var newTop = topMargin
          var newBottom = newBottomLineY
          val testRectFrame1 = RectFrame(newLeft, newTop, newRight, newBottom, -80f, -20f, useCenterLine)
-         drawArcLine(canvas, testRectFrame1, "1번", graphArcLine2)
+         DrawUtil.drawArcLine(canvas, testRectFrame1, "1번", Const.graphArcLine2)
 
          newLeft = newLeft + gapOfHeight
          newRight = newRight - gapOfHeight
@@ -208,7 +102,7 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
          newTop = newTop + gapOfHeight
          newBottom = newBottom - gapOfHeight
          val testRectFrame2 = RectFrame(newLeft, newTop, newRight, newBottom, -80f, -20f, useCenterLine)
-         drawArcLine(canvas, testRectFrame2, "2번", graphArcLine2)
+         DrawUtil.drawArcLine(canvas, testRectFrame2, "2번", Const.graphArcLine2)
       }
 
       left = left + halfGapOfHeight
@@ -218,7 +112,7 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
       // 2번 그래프 - orange
       Log.e("ArcView5", "[2] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame2 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
-      drawArcLine(canvas, rectFrame2, distanceList[1])
+      DrawUtil.drawArcLine(canvas, rectFrame2, distanceList[1])
 
 
       // ===========================================================
@@ -229,7 +123,7 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
       // 3번 그래프 - orange
       Log.e("ArcView5", "[3] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame3 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
-      drawArcLine(canvas, rectFrame3, distanceList[2])
+      DrawUtil.drawArcLine(canvas, rectFrame3, distanceList[2])
 
 
 
@@ -241,7 +135,7 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
       // 4번 그래프 - oragne
       Log.e("ArcView5", "[4] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame4 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
-      drawArcLine(canvas, rectFrame4, distanceList[3])
+      DrawUtil.drawArcLine(canvas, rectFrame4, distanceList[3])
 
 
 
@@ -253,7 +147,7 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
       // 5번 그래프 - orange
       Log.e("ArcView5", "[5] left: $left, top: $top, right: $right, bottom: $bottom")
       val rectFrame5 = RectFrame(left, top, right, bottom, startAngle, sweepAngle, useCenterLine)
-      drawArcLine(canvas, rectFrame5, distanceList[4])
+      DrawUtil.drawArcLine(canvas, rectFrame5, distanceList[4])
 
 
 
@@ -261,7 +155,7 @@ class ArcView5 constructor(context: Context, attrs: AttributeSet) : View(context
       val teeBoxCenterX = halfWidth
       val teeBoxCenterY = bottomLineY        // TODO: 마지막 5번째 호 그래프의 Top 에서 + 간격(300)만큼
       Log.w("ArcView5", "teeBox_x: $teeBoxCenterX, teeBox_y: $teeBoxCenterY")
-      drawTeeBox(canvas, teeBoxCenterX, teeBoxCenterY, 35f * (fillPercentMiddle), 100f * (fillPercentMiddle))
+      DrawUtil.drawTeeBox(canvas, teeBoxCenterX, teeBoxCenterY, 35f * (fillPercentMiddle), 100f * (fillPercentMiddle))
 
 
 //      // ===================== Draw balls...  ===========================

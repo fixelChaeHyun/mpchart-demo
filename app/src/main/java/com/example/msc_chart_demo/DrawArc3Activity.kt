@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import java.lang.Exception
 
+/** 6번. 피그마처럼 그리기 */
 class DrawArc3Activity : AppCompatActivity() {
 
     lateinit var arcView : ArcView3

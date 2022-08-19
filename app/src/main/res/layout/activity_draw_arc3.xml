@@ -18,7 +18,7 @@
         android:backgroundTint="@color/black"
         android:clickable="false"
         android:gravity="center"
-        android:text="Arc Chart Activity" />
+        android:text="Arc Chart(Figma)" />
 
     <SeekBar
         android:id="@+id/seekbar"

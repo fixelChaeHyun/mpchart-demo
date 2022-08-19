@@ -5,102 +5,13 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import androidx.core.view.marginTop
 
 
 class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-   data class RectFrame(val left: Float, val top: Float, val right: Float, val bottom: Float, val startAngle: Float, val sweepAngle: Float, val useCenter: Boolean = false)
-
    var screenHeight: Float = 0f
    var screenWidth: Float = 0f
 
-   private val colorWhite = "#FFFFFF"      // White
-   private val colorPurple = "#A8BBFF"
-   private val colorBlue = "#2554FD"
-   private val colorYellow = "#E8DC00"
-   private val colorOrange = "#FF6702"
-   private val yellowColor = "#FFD500"
-   private val greenColor = "#429F4E"
-
-   private val textSizeForDistance: Float = 32f
-   private val textSizeForClub: Float = 28f
-
-   private val ballColors = listOf<Paint>(
-      Paint().apply {
-         color = Color.parseColor(colorPurple)
-         style = Paint.Style.FILL
-      },
-      Paint().apply {
-         color = Color.parseColor(colorBlue)
-         style = Paint.Style.FILL
-      },
-      Paint().apply {
-         color = Color.parseColor(colorYellow)
-         style = Paint.Style.FILL
-      },
-      Paint().apply {
-         color = Color.parseColor(colorOrange)
-         style = Paint.Style.FILL
-      }
-   )
-
-   val distanceTextStyle = Paint().apply {
-      strokeWidth = 0.5f
-      color = Color.parseColor(colorWhite)
-      style = Paint.Style.FILL_AND_STROKE
-      textSize = textSizeForDistance
-   }
-
-   val distanceTextStyle2 = Paint().apply {
-      strokeWidth = 0.5f
-      color = Color.parseColor(colorBlue)
-      style = Paint.Style.FILL_AND_STROKE
-      textSize = textSizeForDistance
-   }
-
-   val clubTextStyle = Paint().apply {
-      strokeWidth = 0.5f
-      color = Color.parseColor(colorWhite)
-      style = Paint.Style.FILL_AND_STROKE
-      textSize = textSizeForClub
-   }
-
-   val centerLineStyle = Paint().apply {
-      strokeWidth = 3f
-      color = Color.parseColor(colorWhite)
-      style = Paint.Style.STROKE
-      pathEffect = DashPathEffect(floatArrayOf(20f, 10f), 0f)
-   }
-
-   var ballLineStyle = Paint().apply {
-      strokeWidth = 3f
-      color = Color.parseColor(yellowColor)
-      style = Paint.Style.STROKE
-      pathEffect = DashPathEffect(floatArrayOf(5f, 5f), 0f)
-   }
-
-   val teeBoxStyle = Paint().apply {
-      color = Color.parseColor(greenColor)
-      style = Paint.Style.FILL_AND_STROKE
-   }
-
-   val teeBoxSmallStyle = Paint().apply {
-      color = Color.parseColor(colorOrange)
-      style = Paint.Style.FILL_AND_STROKE
-   }
-
-   val graphArcLine = Paint().apply {
-      strokeWidth = 3f
-      color = Color.parseColor(colorWhite)
-      style = Paint.Style.STROKE
-   }
-
-   val graphArcLine2 = Paint().apply {
-      strokeWidth = 5f
-      color = Color.parseColor(colorOrange)
-      style = Paint.Style.STROKE
-   }
 
    init {
    }
@@ -108,23 +19,6 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
    var fillPercentMiddle = 0.825f
    var useCenterLine = false
 
-   private fun drawTeeBox(canvas: Canvas, centerX: Float, centerY: Float, smallRadius: Float, largeRadius: Float) {
-      canvas.drawCircle(centerX, centerY, largeRadius, teeBoxStyle)
-      canvas.drawCircle(centerX, centerY, smallRadius, teeBoxSmallStyle)
-      canvas.drawLine(centerX, 0f, centerX, centerY, centerLineStyle)
-   }
-
-   private fun drawArcLine(canvas: Canvas, rect: RectFrame, distanceText: String, paintOption: Paint = graphArcLine) {
-      val rectFrame = RectF(rect.left, rect.top, rect.right, rect.bottom)
-      canvas.drawArc(rectFrame, rect.startAngle, rect.sweepAngle, rect.useCenter, paintOption)
-
-      // 추가 위치 계산 필요.
-      val width = rect.right - rect.left
-      val height = rect.bottom - rect.top
-      val textLeft: Float = ((rect.left*0.8) + (width * 0.17)).toFloat()
-      val textTop: Float = (rect.top + height * 0.07).toFloat()
-      canvas.drawText(distanceText, textLeft, textTop, distanceTextStyle)
-   }
 
    override fun onDraw(canvas: Canvas?) {
       super.onDraw(canvas)
@@ -139,8 +33,8 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       }
 
 
-      canvas.drawCircle(screenWidth/2, screenHeight/2, 50f, teeBoxStyle)
-      canvas.drawCircle(screenWidth/2, screenHeight/2, 25f, teeBoxSmallStyle)
+      canvas.drawCircle(screenWidth/2, screenHeight/2, 50f, Const.teeBoxStyle)
+      canvas.drawCircle(screenWidth/2, screenHeight/2, 25f, Const.teeBoxInnerStyle)
 
       val startX = screenWidth/2
       val startY = screenHeight/2
@@ -154,7 +48,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       var right = startX + offsetValue
       var bottom = startY + offsetValue
       val rect1 = RectFrame(left, top, right, bottom, startAng, sweepAng, true)
-      canvas.drawArc(RectF(rect1.left, rect1.top, rect1.right, rect1.bottom), rect1.startAngle, rect1.sweepAngle, useCenterLine, graphArcLine)
+      canvas.drawArc(RectF(rect1.left, rect1.top, rect1.right, rect1.bottom), rect1.startAngle, rect1.sweepAngle, useCenterLine, Const.graphArcLine)
 
       left -= offsetValue
       top -= offsetValue
@@ -162,7 +56,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       bottom += offsetValue
 
       var rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
-      canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), rect2.startAngle, rect2.sweepAngle, useCenterLine, graphArcLine2)
+      canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), rect2.startAngle, rect2.sweepAngle, useCenterLine, Const.graphArcLine2)
 
       var count = 3
       while (count > 0) {
@@ -172,15 +66,15 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          bottom += offsetValue
 
          rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
-         canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), rect2.startAngle, rect2.sweepAngle, useCenterLine, graphArcLine)
+         canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), rect2.startAngle, rect2.sweepAngle, useCenterLine, Const.graphArcLine)
          count--
       }
 
       if (useCenterLine) {
          val sideRectFrame = RectF(left, top, right, bottom)
-         canvas.drawArc(sideRectFrame, -70f, -40f, true, ballColors[2])
+         canvas.drawArc(sideRectFrame, -70f, -40f, true, Const.ballColors[2])
          val centerRectFrame = RectF(left, top, right, bottom)
-         canvas.drawArc(centerRectFrame, -85f, -10f, true, ballColors[0])
+         canvas.drawArc(centerRectFrame, -85f, -10f, true, Const.ballColors[0])
       }
 
 
