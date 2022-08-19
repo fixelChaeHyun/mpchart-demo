@@ -13,6 +13,23 @@ object Const {
     val yellowColor = "#FFD500"
     val greenColor = "#429F4E"
 
+    val guideLineBlue = Paint().apply {
+        strokeWidth = 4f
+        color = Color.parseColor(colorBlue)
+        style = Paint.Style.FILL
+    }
+
+    val guideLineYellow = Paint().apply {
+        strokeWidth = 4f
+        color = Color.parseColor(colorYellow)
+        style = Paint.Style.FILL
+    }
+
+    val dotBlackStyle = Paint().apply {
+        color = Color.parseColor("#000000")
+        style = Paint.Style.FILL_AND_STROKE
+    }
+
     val ballColors = listOf<Paint>(
         Paint().apply {
             color = Color.parseColor(colorPurple)

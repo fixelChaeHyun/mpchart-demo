@@ -46,18 +46,17 @@ class CircleActivity : AppCompatActivity() {
 
         val windowSize = Rect()
         window.decorView.getWindowVisibleDisplayFrame(windowSize)
-
-        Log.e("WindowScreen", "display.width: ${displaySize.x}, display.height: ${displaySize.y}")
-
 //        val standardSize: Float = (displaySize.y * 0.65).toFloat()
         try {
             arcView = findViewById<ArcView6>(R.id.arcView).apply {
                 screenHeight = (displaySize.y).toFloat()
                 screenWidth = (displaySize.x).toFloat()
+
                 invalidate()
             }
 
         } catch (e: Exception) {
+            e.printStackTrace()
 
         }
 
@@ -69,5 +68,13 @@ class CircleActivity : AppCompatActivity() {
             arcView.useCenterLine = !arcView.useCenterLine
             arcView.invalidate()
         }
+
+
+        arcView.viewWidth = arcView.width.toFloat()
+        arcView.viewHeight = arcView.height.toFloat()
+        Log.e("WindowScreen", "display.width: ${displaySize.x}, display.height: ${displaySize.y}")
+        Log.e("WindowScreen", "arcView.width: ${arcView.width}, arcView.height: ${arcView.height} \n-> measuredWidth: ${arcView.measuredWidth} , measuredHeight: ${arcView.measuredHeight}")
+
+
     }
 }

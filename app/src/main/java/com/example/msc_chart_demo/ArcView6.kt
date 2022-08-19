@@ -8,9 +8,13 @@ import android.view.View
 
 
 class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
+   private val TAG: String = this::class.java.simpleName
 
    var screenHeight: Float = 0f
    var screenWidth: Float = 0f
+
+   var viewHeight: Float = 0f
+   var viewWidth: Float = 0f
 
 
    init {
@@ -25,7 +29,9 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       if (canvas == null) return
 //      val fillPercentMiddle = 0.01f
       var offset = 11f
-      Log.e("ArcView6","testHeight: $screenHeight , screenWidth: $screenWidth")
+      Log.e(TAG," ** screenWidth: $screenWidth, screenHeight: $screenHeight  / viewWidth: $viewWidth, viewHeight: $viewHeight **")
+      Log.e(TAG, "DRAW_START > arcView.width: ${width}, arcView.height: ${height} , measuredWidth: ${measuredWidth} , measuredHeight: ${measuredHeight}")
+
 
       if (screenHeight < 0) {
          Log.e("ArcView6", "testSize is not initialized yet.")
@@ -33,13 +39,46 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       }
 
 
-      canvas.drawCircle(screenWidth/2, screenHeight/2, 50f, Const.teeBoxStyle)
-      canvas.drawCircle(screenWidth/2, screenHeight/2, 25f, Const.teeBoxInnerStyle)
+      val endX = width.toFloat()
+      val endY = height.toFloat()
+      // 좌상단, 우하단 연결선
+      canvas.drawCircle(0f, 0f, 15f, Const.teeBoxInnerStyle)
+      canvas.drawCircle(endX, endY, 15f, Const.teeBoxInnerStyle)
+      canvas.drawLine(0f, 0f, endX, endY, Const.guideLineBlue)
+      // 우상단, 좌하단 연결선
+      canvas.drawCircle(endX, 0f, 15f, Const.teeBoxInnerStyle)
+      canvas.drawCircle(0f, endY, 15f, Const.teeBoxInnerStyle)
+      canvas.drawLine(endX, 0f, 0f, endY, Const.guideLineBlue)
 
-      val startX = screenWidth/2
-      val startY = screenHeight/2
+      canvas.drawLine(0f, 0f, endX, 0f, Const.guideLineBlue)
+      canvas.drawLine(0f, 0f, 0f, endY, Const.guideLineBlue)
+      canvas.drawLine(0f, endY, endX, endY, Const.guideLineBlue)
+      canvas.drawLine(endX, 0f, endX, endY, Const.guideLineBlue)
 
-      val offsetValue = 200f
+      canvas.drawCircle(endX/2, endY/2, 20f,Const.dotBlackStyle)
+
+      DrawUtil.drawTeeBox(canvas, endX/2, endY, 20f, 45f)
+
+      canvas.drawLine(endX / 2, endY, 0f, 0f, Const.guideLineYellow)
+      canvas.drawLine(endX / 2, endY, endX, 0f, Const.guideLineYellow)
+
+
+      val startX = endX / 2
+      val startY = endY.toFloat()
+
+      val offsetValue = (width * 0.16).toFloat()
+
+      // 비율 가이드선
+      var cnt = 5
+      var ratioY = startY
+      while(cnt-- > 0) {
+         ratioY -= offsetValue
+         canvas.drawLine(0f, ratioY, endX, ratioY, Const.ballLineStyle)
+
+      }
+
+
+      Log.e(TAG, "offsetValue : $offsetValue")
       val startAng = -65f
       val sweepAng = -50f
 
@@ -47,8 +86,8 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       var top = startY - offsetValue
       var right = startX + offsetValue
       var bottom = startY + offsetValue
-      val rect1 = RectFrame(left, top, right, bottom, startAng, sweepAng, true)
-      canvas.drawArc(RectF(rect1.left, rect1.top, rect1.right, rect1.bottom), rect1.startAngle, rect1.sweepAngle, useCenterLine, Const.graphArcLine)
+      val rect1 = RectFrame(left, top, right, bottom, startAng, sweepAng)
+      canvas.drawArc(RectF(rect1.left, rect1.top, rect1.right, rect1.bottom), startAng, sweepAng, useCenterLine, Const.graphArcLine2)
 
       left -= offsetValue
       top -= offsetValue
@@ -56,9 +95,9 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       bottom += offsetValue
 
       var rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
-      canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), rect2.startAngle, rect2.sweepAngle, useCenterLine, Const.graphArcLine2)
+      canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), startAng, sweepAng, useCenterLine, Const.graphArcLine)
 
-      var count = 3
+      var count = 4
       while (count > 0) {
          left -= offsetValue
          top -= offsetValue
@@ -66,7 +105,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          bottom += offsetValue
 
          rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
-         canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), rect2.startAngle, rect2.sweepAngle, useCenterLine, Const.graphArcLine)
+         canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), startAng, sweepAng, useCenterLine, Const.graphArcLine)
          count--
       }
 
@@ -110,6 +149,11 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
 //      val fillY = 100f * fillPercentMiddle
 //      rectMiddle.set(100f + fillX, 100 + fillY, 1000f - fillY, 1000f - fillY)
 //      canvas!!.drawArc(rectMiddle, 240f, 60f, true, paintFillMiddle)
+
+//      viewWidth = this.width.toFloat()
+//      viewHeight = this.height.toFloat()
+
+      Log.e(TAG, "DRAW_END > arcView.width: ${width}, arcView.height: ${height} , measuredWidth: ${measuredWidth} , measuredHeight: ${measuredHeight}")
    }
 
    fun setFillMiddleWeight(weight: Float) {
