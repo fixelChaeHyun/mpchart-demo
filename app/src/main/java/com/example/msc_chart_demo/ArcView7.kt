@@ -5,12 +5,9 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.sin
 
 
-class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
    private val TAG: String = this::class.java.simpleName
 
    var screenHeight: Float = 0f
@@ -104,7 +101,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       }
 
       // Draw Tee box
-      DrawUtil.drawTeeBox(canvas, (endX + minusWidth/2)/2 , endY, 20f*fillPercentMiddle, 45f*fillPercentMiddle)
+      DrawUtil.drawTeeBox(canvas, (endX + minusWidth/2)/2 , endY, 25f*fillPercentMiddle, 55f*fillPercentMiddle)
 
 
       Log.e(TAG, "offsetWidth : $offsetValue , offsetHeight: $offsetHeight , startX: $startX, startY: $startY")
@@ -119,8 +116,6 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       var bottom = startY + offsetHeight
       val count = 6
       var start = 0
-
-      var radiusThird: Float = 0f
       while (start < count) {
 
          val rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
@@ -135,11 +130,6 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
             break
          }
 
-         if (start == 2) {
-            radiusThird = (bottom - top) / 2
-            Log.e("ArcView6", "!! Check Radius[${distanceText[start]}] = $radiusThird")
-            Log.e("ArcView6", "!! Center dot: (${(widthAdjusted+minusWidth)/2}, ${heightAdjusted+minusHeight/2})")
-         }
 
          left -= offsetValue
          top -= offsetHeight
@@ -147,7 +137,6 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          bottom += offsetHeight
 
          start++
-
       }
 
       // 타구 데이터 유효값 영역 그리기
@@ -158,15 +147,6 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          canvas.drawArc(centerRectFrame, -85f, -10f, true, Const.validAreaStyle[1])
       }
 
-      if (radiusThird != 0f) {
-         val x = cos(Math.toRadians(45.0)) * radiusThird
-         val y = sin(Math.toRadians(45.0)) * radiusThird
-         Log.e("ArcView6", "!!! x,y 좌표 -> ($x, $y) / (${width.toFloat()/2 + x}, ${endY + y.toFloat()})")
-//         width.toFloat() / 2, endY
-         canvas.drawCircle(x.toFloat(), y.toFloat(), 15f, Const.ballColors[1])
-         canvas.drawLine(width.toFloat() / 2, endY, x.toFloat(), y.toFloat(), Const.ballLineStyle)
-         canvas.drawCircle(x.toFloat() + width.toFloat()/2, y.toFloat() + endY, 15f, Const.ballColors[2])
-      }
 
 //      // ===================== Draw balls...  ===========================
 //      canvas!!.drawCircle(510f, 820f, 27f, ballColors[0])

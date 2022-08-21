@@ -16,7 +16,7 @@ object Const {
     val greenColor = "#429F4E"
 
     val guideLineBlue = Paint().apply {
-        strokeWidth = 4f
+        strokeWidth = 2f
         color = Color.parseColor(colorBlue)
         style = Paint.Style.FILL
     }
@@ -111,11 +111,13 @@ object Const {
     val teeBoxStyle = Paint().apply {
         color = Color.parseColor(greenColor)
         style = Paint.Style.FILL_AND_STROKE
+        alpha = 200
     }
 
     val teeBoxInnerStyle = Paint().apply {
         color = Color.parseColor(colorOrange)
         style = Paint.Style.FILL_AND_STROKE
+        alpha = 230
     }
 
     val graphArcLine = Paint().apply {
