@@ -20,8 +20,9 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
    init {
    }
 
-   var fillPercentMiddle = 0.825f
-   var useCenterLine = false
+   var fillPercentMiddle: Float = 0.75f
+   var validAreaForShotData = false
+   var setLongClick = false
 
 
    override fun onDraw(canvas: Canvas?) {
@@ -29,8 +30,10 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       if (canvas == null) return
 //      val fillPercentMiddle = 0.01f
       var offset = 11f
+      var heightRatio: Float = (height.toFloat() / width.toFloat())
       Log.e(TAG," ** screenWidth: $screenWidth, screenHeight: $screenHeight  / viewWidth: $viewWidth, viewHeight: $viewHeight **")
-      Log.e(TAG, "DRAW_START > arcView.width: ${width}, arcView.height: ${height} , measuredWidth: ${measuredWidth} , measuredHeight: ${measuredHeight}")
+      Log.e(TAG, "DRAW_START > heightRatio: $heightRatio arcView.width: ${width}, arcView.height: ${height} , measuredWidth: ${measuredWidth} , measuredHeight: ${measuredHeight}")
+
 
 
       if (screenHeight < 0) {
@@ -41,79 +44,93 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
 
       val endX = width.toFloat()
       val endY = height.toFloat()
-      // 좌상단, 우하단 연결선
-      canvas.drawCircle(0f, 0f, 15f, Const.teeBoxInnerStyle)
-      canvas.drawCircle(endX, endY, 15f, Const.teeBoxInnerStyle)
-      canvas.drawLine(0f, 0f, endX, endY, Const.guideLineBlue)
-      // 우상단, 좌하단 연결선
-      canvas.drawCircle(endX, 0f, 15f, Const.teeBoxInnerStyle)
-      canvas.drawCircle(0f, endY, 15f, Const.teeBoxInnerStyle)
-      canvas.drawLine(endX, 0f, 0f, endY, Const.guideLineBlue)
-
-      canvas.drawLine(0f, 0f, endX, 0f, Const.guideLineBlue)
-      canvas.drawLine(0f, 0f, 0f, endY, Const.guideLineBlue)
-      canvas.drawLine(0f, endY, endX, endY, Const.guideLineBlue)
-      canvas.drawLine(endX, 0f, endX, endY, Const.guideLineBlue)
-
-      canvas.drawCircle(endX/2, endY/2, 20f,Const.dotBlackStyle)
-
-      DrawUtil.drawTeeBox(canvas, endX/2, endY, 20f, 45f)
-
-      canvas.drawLine(endX / 2, endY, 0f, 0f, Const.guideLineYellow)
-      canvas.drawLine(endX / 2, endY, endX, 0f, Const.guideLineYellow)
-
 
       val startX = endX / 2
       val startY = endY.toFloat()
 
-      val offsetValue = (width * 0.16).toFloat()
+      val intervalArcLine = 0.165
+//      heightRatio = 1.toFloat()
+      val offsetValue = (width * intervalArcLine).toFloat()      // offset for Width (1배처리)
+      val offsetHeight = ((width * heightRatio) * intervalArcLine).toFloat()      // offset for Height (가로 대비 세로 배율만큼 길게 offset 설정하기)
 
-      // 비율 가이드선
-      var cnt = 5
-      var ratioY = startY
-      while(cnt-- > 0) {
-         ratioY -= offsetValue
-         canvas.drawLine(0f, ratioY, endX, ratioY, Const.ballLineStyle)
+      if (setLongClick) {
+         // 좌상단, 우하단 모서리
+         canvas.drawCircle(0f, 0f, 15f, Const.dotBlackStyle)
+         canvas.drawCircle(endX, endY, 15f, Const.dotBlackStyle)
 
+         // 우상단, 좌하단 모서리
+         canvas.drawCircle(endX, 0f, 15f, Const.dotBlackStyle)
+         canvas.drawCircle(0f, endY, 15f, Const.dotBlackStyle)
+
+         // 테두리 라인 그리기
+         canvas.drawLine(0f, 0f, endX, 0f, Const.guideLineBlue)
+         canvas.drawLine(0f, 0f, 0f, endY, Const.guideLineBlue)
+         canvas.drawLine(0f, endY, endX, endY, Const.guideLineBlue)
+         canvas.drawLine(endX, 0f, endX, endY, Const.guideLineBlue)
+
+         // 가운데 지점 찾기
+//         canvas.drawLine(0f, 0f, endX, endY, Const.guideLineBlue)
+//         canvas.drawLine(endX, 0f, 0f, endY, Const.guideLineBlue)
+//         canvas.drawCircle(endX/2, endY/2, 20f,Const.dotBlackStyle)
+
+         // 사이드 가이드라인
+         canvas.drawLine(endX / 2, endY, 0f, 0f, Const.guideLineYellow)
+         canvas.drawLine(endX / 2, endY, endX, 0f, Const.guideLineYellow)
+
+         var cnt = 5
+         var ratioY = startY
+         while(cnt-- > 0) {
+            ratioY -= offsetHeight
+            canvas.drawLine(0f, ratioY, endX, ratioY, Const.ballLineStyle)
+
+         }
       }
 
+      // Draw Tee box
+      DrawUtil.drawTeeBox(canvas, endX/2, endY, 20f, 45f)
 
-      Log.e(TAG, "offsetValue : $offsetValue")
+
+      Log.e(TAG, "offsetWidth : $offsetValue , offsetHeight: $offsetHeight , startX: $startX, startY: $startY")
       val startAng = -65f
       val sweepAng = -50f
 
+
+      val distanceText = listOf("50", "100", "150", "200", "250", "")
       var left = startX - offsetValue
-      var top = startY - offsetValue
+      var top = startY - offsetHeight
       var right = startX + offsetValue
-      var bottom = startY + offsetValue
-      val rect1 = RectFrame(left, top, right, bottom, startAng, sweepAng)
-      canvas.drawArc(RectF(rect1.left, rect1.top, rect1.right, rect1.bottom), startAng, sweepAng, useCenterLine, Const.graphArcLine2)
+      var bottom = startY + offsetHeight
+      val count = 6
+      var start = 0
+      while (start < count) {
 
-      left -= offsetValue
-      top -= offsetValue
-      right += offsetValue
-      bottom += offsetValue
+         val rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
+         if (start != count-1) {
+            DrawUtil.drawArcLine2(canvas, rect2, distanceText[start])
+         } else {
+            DrawUtil.drawArcLine2(canvas, rect2, distanceText[start], Const.graphArcLine3)
+            left += (offsetValue * 1.0).toFloat()
+            top += (offsetHeight * 1.0).toFloat()
+            right -= (offsetValue * 1.0).toFloat()
+            bottom -= (offsetHeight * 1.0).toFloat()
+            break
+         }
 
-      var rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
-      canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), startAng, sweepAng, useCenterLine, Const.graphArcLine)
 
-      var count = 4
-      while (count > 0) {
          left -= offsetValue
-         top -= offsetValue
+         top -= offsetHeight
          right += offsetValue
-         bottom += offsetValue
+         bottom += offsetHeight
 
-         rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
-         canvas.drawArc(RectF(rect2.left, rect2.top, rect2.right, rect2.bottom), startAng, sweepAng, useCenterLine, Const.graphArcLine)
-         count--
+         start++
       }
 
-      if (useCenterLine) {
+      // 타구 데이터 유효값 영역 그리기
+      if (validAreaForShotData) {
          val sideRectFrame = RectF(left, top, right, bottom)
-         canvas.drawArc(sideRectFrame, -70f, -40f, true, Const.ballColors[2])
+         canvas.drawArc(sideRectFrame, -70f, -40f, true, Const.validAreaStyle[0])
          val centerRectFrame = RectF(left, top, right, bottom)
-         canvas.drawArc(centerRectFrame, -85f, -10f, true, Const.ballColors[0])
+         canvas.drawArc(centerRectFrame, -85f, -10f, true, Const.validAreaStyle[1])
       }
 
 

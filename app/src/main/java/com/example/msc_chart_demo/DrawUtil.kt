@@ -24,4 +24,16 @@ object DrawUtil {
         val offsetTop: Float = (rect.top + height * 0.07).toFloat()
         canvas.drawText(distanceText, offsetLeft, offsetTop, paintTextOption)
     }
+
+    fun drawArcLine2(canvas: Canvas, rect: RectFrame, distanceText: String, paintArcOption: Paint = Const.graphArcLine, paintTextOption: Paint = Const.distanceTextStyle) {
+        val frame = RectF(rect.left, rect.top, rect.right, rect.bottom)
+        canvas.drawArc(frame, rect.startAngle, rect.sweepAngle, rect.useCenter, paintArcOption)
+
+        // distance Text
+        val width = rect.right - rect.left
+        val height = rect.bottom - rect.top
+        val offsetLeft: Float = ((rect.left * 0.87) + (width * 0.215)).toFloat()
+        val offsetTop: Float = (rect.top + height * 0.04).toFloat()
+        canvas.drawText(distanceText, offsetLeft, offsetTop, paintTextOption)
+    }
 }

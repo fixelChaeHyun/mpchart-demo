@@ -9,7 +9,9 @@ object Const {
     val colorPurple = "#A8BBFF"
     val colorBlue = "#2554FD"
     val colorYellow = "#E8DC00"
+    val colorLightYellow = "#EAD158"
     val colorOrange = "#FF6702"
+    val colorRed = "#EA002B"
     val yellowColor = "#FFD500"
     val greenColor = "#429F4E"
 
@@ -46,7 +48,23 @@ object Const {
         Paint().apply {
             color = Color.parseColor(colorOrange)
             style = Paint.Style.FILL
-        }
+        },
+
+    )
+
+    val validAreaStyle = listOf<Paint>(
+        Paint().apply {
+            color = Color.parseColor(colorYellow)
+            style = Paint.Style.FILL
+            alpha = 70
+//            isAntiAlias = true
+        },
+        Paint().apply {
+            color = Color.parseColor(colorPurple)
+            style = Paint.Style.FILL_AND_STROKE
+            alpha = 150
+            isAntiAlias = true
+        },
     )
 
     /** Paint : Text Style */
@@ -58,6 +76,7 @@ object Const {
         color = Color.parseColor(colorWhite)
         style = Paint.Style.FILL_AND_STROKE
         textSize = textSizeForDistance
+        textAlign = Paint.Align.CENTER
     }
 
     val distanceTextStyle2 = Paint().apply {
@@ -65,6 +84,7 @@ object Const {
         color = Color.parseColor(colorBlue)
         style = Paint.Style.FILL_AND_STROKE
         textSize = textSizeForDistance
+        textAlign = Paint.Align.CENTER
     }
 
     val clubTextStyle = Paint().apply {
@@ -108,5 +128,11 @@ object Const {
         strokeWidth = 5f
         color = Color.parseColor(colorOrange)
         style = Paint.Style.STROKE
+    }
+    val graphArcLine3 = Paint().apply {
+        strokeWidth = 5f
+        color = Color.parseColor(colorRed)
+        style = Paint.Style.STROKE
+        pathEffect = DashPathEffect(floatArrayOf(20f, 10f), 0f)
     }
 }

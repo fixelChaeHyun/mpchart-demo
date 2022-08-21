@@ -20,16 +20,10 @@ class CircleActivity : AppCompatActivity() {
 
         val listener = object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                return
-                Log.d("ArcView6", "Seekbar : p1 : $p1 , p2 : $p2")
-                var weight: Float = 0f
-                if (p1 == 0) {
-                    weight = 0.01f
-                } else {
-                    weight = (p1.toFloat() * 0.1).toFloat() + 0.025f
-                }
+                Log.d("CircleActivity", "Seekbar : p1 : $p1 , p2 : $p2")
 
-                arcView.setFillMiddleWeight(weight)
+                val zoom = listOf(0.1f, 0.5f, 0.75f, 1.0f)
+                arcView.setFillMiddleWeight(zoom[p1])
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {
@@ -65,8 +59,14 @@ class CircleActivity : AppCompatActivity() {
 
         button = findViewById(R.id.btn_title)
         button.setOnClickListener {
-            arcView.useCenterLine = !arcView.useCenterLine
+            arcView.validAreaForShotData = !arcView.validAreaForShotData
             arcView.invalidate()
+        }
+        button.setOnLongClickListener {
+            Log.w("CircleActivity", "LongClick-()")
+            arcView.setLongClick = !arcView.setLongClick
+            arcView.invalidate()
+            false
         }
 
 
