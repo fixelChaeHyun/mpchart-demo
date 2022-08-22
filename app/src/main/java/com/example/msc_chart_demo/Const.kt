@@ -49,6 +49,10 @@ object Const {
             color = Color.parseColor(colorOrange)
             style = Paint.Style.FILL
         },
+        Paint().apply {
+            color = Color.parseColor(colorRed)
+            style = Paint.Style.FILL
+        },
 
     )
 

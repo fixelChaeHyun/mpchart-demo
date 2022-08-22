@@ -5,6 +5,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import kotlin.math.cos
+import kotlin.math.sin
 
 
 class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -16,6 +18,12 @@ class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context
    var viewHeight: Float = 0f
    var viewWidth: Float = 0f
 
+   var ratioDistance = 0f
+   var ratioRadius = 0f
+   var ratioDistanceWidth = 0f
+   var ratioRadiusWidth = 0f
+
+   private val shotData : ArrayList<BallShotData> = arrayListOf()
 
    init {
    }
@@ -116,6 +124,9 @@ class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context
       var bottom = startY + offsetHeight
       val count = 6
       var start = 0
+
+      var radiusThird = 0f
+      var radiusThirdWidth = 0f
       while (start < count) {
 
          val rect2 = RectFrame(left, top, right, bottom, startAng, sweepAng)
@@ -130,6 +141,16 @@ class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context
             break
          }
 
+         if (start == 2) {
+            radiusThird = (bottom - top) / 2
+            radiusThirdWidth = (right - left) / 2
+            ratioDistance = radiusThird
+            ratioRadius = 150f
+            ratioDistanceWidth = radiusThirdWidth
+            ratioRadiusWidth = 150f
+            Log.e("ArcView6", "!! Check Radius[${distanceText[start]}] = $radiusThird")
+            Log.e("ArcView6", "!! Center dot: (${(widthAdjusted+minusWidth)/2}, ${heightAdjusted+minusHeight/2})")
+         }
 
          left -= offsetValue
          top -= offsetHeight
@@ -147,6 +168,12 @@ class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context
          canvas.drawArc(centerRectFrame, -85f, -10f, true, Const.validAreaStyle[1])
       }
 
+
+      shotData.forEachIndexed { index, ballShotData ->
+         val lineDraw = if (shotData.size == 1) true else index == shotData.size -1
+
+         drawShotData(canvas, ballShotData.distance, ballShotData.rad, radiusThirdWidth, radiusThird, 150f, ballShotData.paint, lineDraw)
+      }
 
 //      // ===================== Draw balls...  ===========================
 //      canvas!!.drawCircle(510f, 820f, 27f, ballColors[0])
@@ -187,8 +214,35 @@ class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context
       Log.e(TAG, "DRAW_END > arcView.width: ${width}, arcView.height: ${height} , measuredWidth: ${measuredWidth} , measuredHeight: ${measuredHeight}")
    }
 
+   private fun drawShotData(canvas: Canvas, targetDistance: Float, targetRad: Double, ratioRadiusWidth: Float, ratioRadius: Float, ratioDistance: Float, paint: Paint = Const.ballColors[1], drawLine: Boolean = false) {
+      if (ratioDistance != 0f && ratioRadius != 0f && ratioDistance != 0f) {
+         val minusHeight = height.toFloat() - (height * fillPercentMiddle)
+         val endY = height.toFloat() - minusHeight/2
+         val rad = targetRad - 90
+
+         var result = ratioRadius * targetDistance / ratioDistance
+         var resultWidth = ratioRadiusWidth * targetDistance / ratioDistance
+
+         // result 값이 x,y축 같은 값만큼 줄어들어서 맞지 않는 상태 -> 비율 x축 따로 구해야함.
+         val x = cos(Math.toRadians(rad)) * resultWidth
+         val y = sin(Math.toRadians(rad)) * result
+         Log.e("ArcView6", "!!! x,y 좌표 -> ($x, $y) / (${width.toFloat()/2 + x}, ${endY + y.toFloat()})")
+
+         if (drawLine) {
+            canvas.drawLine(width.toFloat() / 2, endY, x.toFloat() + width.toFloat()/2, y.toFloat() + endY, Const.ballLineStyle)
+         }
+         canvas.drawCircle(x.toFloat() + width.toFloat()/2, y.toFloat() + endY, 15f, paint)
+      }
+   }
+
    fun setFillMiddleWeight(weight: Float) {
       fillPercentMiddle = weight
+      invalidate()
+   }
+
+   fun setShotData(dummies: List<BallShotData>) {
+      shotData.clear()
+      shotData.addAll(dummies)
       invalidate()
    }
 }
