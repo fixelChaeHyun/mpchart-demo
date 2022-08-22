@@ -76,24 +76,24 @@ class CircleActivity : AppCompatActivity() {
         }
 
         val dummies = listOf<BallShotData>(
-            BallShotData(250f, 10.0, Const.ballColors[3]),
-            BallShotData(250f, -15.0, Const.ballColors[0]),
-            BallShotData(123f, -3.0),
-            BallShotData(120f, 11.0, Const.ballColors[0]),
-            BallShotData(68f, -7.8, Const.ballColors[0]),
-            BallShotData(143f, 0.0, Const.ballColors[3]),
-            BallShotData(217f, 6.5, Const.ballColors[1]),
-            BallShotData(103f, 5.0, Const.ballColors[2]),
-            BallShotData(123f, -5.0, Const.ballColors[3]),
-            BallShotData(263f, 0.5, Const.ballColors[1]),
-            BallShotData(260f, -19.5, Const.ballColors[1]),
-            BallShotData(275f, 19.5, Const.ballColors[2]),
-            BallShotData(233f, 0.5, Const.ballColors[2]),
-            BallShotData(248f, -0.5, Const.ballColors[4]),
-            BallShotData(50f, 7.5, Const.ballColors[4]),
-            BallShotData(178f, -10.5, Const.ballColors[0]),
-            BallShotData(161f, 4.5, Const.ballColors[0]),
-            BallShotData(200f, -10.5, Const.ballColors[4]),
+            BallShotData(250f, 10.0, "PW", Const.ballColors[3]),
+            BallShotData(250f, -15.0, "U3", Const.ballColors[0]),
+            BallShotData(123f, -3.0, "I6", Const.ballColors[1]),
+            BallShotData(120f, 11.0, "U3", Const.ballColors[0]),
+            BallShotData(68f, -7.8, "U3", Const.ballColors[0]),
+            BallShotData(143f, 0.0, "GW", Const.ballColors[3]),
+            BallShotData(217f, 6.5, "I6", Const.ballColors[1]),
+            BallShotData(103f, 5.0, "I3", Const.ballColors[2]),
+            BallShotData(123f, -5.0, "PW", Const.ballColors[3]),
+            BallShotData(263f, 0.5, "I6", Const.ballColors[1]),
+            BallShotData(260f, -19.5, "I6", Const.ballColors[1]),
+            BallShotData(275f, 19.5, "I3", Const.ballColors[2]),
+            BallShotData(233f, 0.5, "I3", Const.ballColors[2]),
+            BallShotData(248f, -0.5, "I9", Const.ballColors[4]),
+            BallShotData(50f, 7.5, "I9", Const.ballColors[4]),
+            BallShotData(178f, -10.5, "U3", Const.ballColors[0]),
+            BallShotData(161f, 4.5, "U3", Const.ballColors[0]),
+            BallShotData(200f, -10.5, "I9", Const.ballColors[4]),
         )
 
         var clickedIndex = 0
@@ -129,5 +129,6 @@ class CircleActivity : AppCompatActivity() {
 data class BallShotData(
     val distance: Float,
     val rad: Double,
+    val clubType: String,
     val paint: Paint = Const.ballColors[1]
 )

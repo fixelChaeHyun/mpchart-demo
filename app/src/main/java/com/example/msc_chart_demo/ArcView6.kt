@@ -188,7 +188,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       shotData.forEachIndexed { index, ballShotData ->
          val lineDraw = if (shotData.size == 1) true else index == shotData.size -1
 
-         drawShotData(canvas, ballShotData.distance, ballShotData.rad, radiusThird, 150f, ballShotData.paint, lineDraw)
+         drawShotData(canvas, ballShotData.distance, ballShotData.rad, radiusThird, 150f, ballShotData.paint, ballShotData.clubType, lineDraw)
       }
 
 //      // ===================== Draw balls...  ===========================
@@ -230,7 +230,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       Log.e(TAG, "DRAW_END > arcView.width: ${width}, arcView.height: ${height} , measuredWidth: ${measuredWidth} , measuredHeight: ${measuredHeight}")
    }
 
-   private fun drawShotData(canvas: Canvas, targetDistance: Float, targetRad: Double, ratioRadius: Float, ratioDistance: Float, paint: Paint = Const.ballColors[1], drawLine: Boolean = false) {
+   private fun drawShotData(canvas: Canvas, targetDistance: Float, targetRad: Double, ratioRadius: Float, ratioDistance: Float, paint: Paint = Const.ballColors[1], clubType: String, drawLine: Boolean = false) {
       if (ratioDistance != 0f && ratioRadius != 0f && ratioDistance != 0f) {
          val minusHeight = height.toFloat() - (height * fillPercentMiddle)
          val endY = height.toFloat() - minusHeight/2
@@ -245,7 +245,26 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          if (drawLine) {
             canvas.drawLine(width.toFloat() / 2, endY, x.toFloat() + width.toFloat()/2, y.toFloat() + endY, Const.ballLineStyle)
          }
-         canvas.drawCircle(x.toFloat() + width.toFloat()/2, y.toFloat() + endY, 15f, paint)
+         val ballX = x.toFloat() + width.toFloat()/2
+         val ballY = y.toFloat() + endY
+         canvas.drawCircle(ballX, ballY, 20f, paint)
+         var textX = ballX
+         var textY = ballY
+         when (clubType) {
+            "I9", "I6", "I3" -> {
+               textX += -8
+               textY += 8
+            }
+            "U3" -> {
+               textX += -12
+               textY += 7
+            }
+            "PW", "GW" -> {
+               textX += -14
+               textY += 7
+            }
+         }
+         canvas.drawText(clubType, textX, textY, Const.clubTextStyle)
       }
    }
 
