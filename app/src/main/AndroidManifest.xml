@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mscchartdemo">
         <activity
+            android:name=".TextTestActivity"
+            android:exported="false" />
+        <activity
             android:name=".Circle2Activity"
             android:exported="false" />
         <activity

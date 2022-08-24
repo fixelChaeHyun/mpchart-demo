@@ -116,7 +116,6 @@ class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context
       val startAng = -65f
       val sweepAng = -50f
 
-
       val distanceText = listOf("50", "100", "150", "200", "250", "")
       var left = startX - offsetValue
       var top = startY - offsetHeight

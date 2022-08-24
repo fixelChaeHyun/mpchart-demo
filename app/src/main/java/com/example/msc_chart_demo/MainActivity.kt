@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var button8: Button
     lateinit var buttonCircleToSquare: Button
     lateinit var buttonCircleToRect: Button
+    lateinit var button10: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         buttonCircleToSquare.setOnClickListener(this)
         buttonCircleToRect = findViewById(R.id.btn_circle_rect)
         buttonCircleToRect.setOnClickListener(this)
+        button10 = findViewById(R.id.btn10)
+        button10.setOnClickListener(this)
 
     }
 
@@ -98,6 +101,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this, "10번.센터원형->직사각형", Toast.LENGTH_SHORT).show()
                 val arcDraw = Intent(this, Circle2Activity::class.java)
                 startActivity(arcDraw)
+            }
+            R.id.btn10 -> {
+                Toast.makeText(this, "텍스트 그리기", Toast.LENGTH_SHORT).show()
+                val textTest = Intent(this, TextTestActivity::class.java)
+                startActivity(textTest)
             }
         }
     }

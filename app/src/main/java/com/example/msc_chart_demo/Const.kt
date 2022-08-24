@@ -32,6 +32,14 @@ object Const {
         style = Paint.Style.FILL_AND_STROKE
     }
 
+    // color = Color.argb(255, 165, 165, 165)      // gray
+    val circleLine = Paint().apply {
+        color = Color.argb(255, 230, 230, 230)      // gray
+        style = Paint.Style.STROKE
+        strokeWidth = 4f
+        isAntiAlias = true
+    }
+
     val ballColors = listOf<Paint>(
         Paint().apply {
             color = Color.parseColor(colorPurple)

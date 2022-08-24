@@ -46,7 +46,6 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       val minusWidth = width.toFloat() - widthAdjusted
       val minusHeight = height.toFloat() - heightAdjusted
 
-
       if (screenHeight < 0) {
          Log.e("ArcView6", "testSize is not initialized yet.")
          return
@@ -111,8 +110,12 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
 
 
       Log.e(TAG, "offsetWidth : $offsetValue , offsetHeight: $offsetHeight , startX: $startX, startY: $startY")
-      val startAng = -65f
-      val sweepAng = -50f
+      val startPoint = 65f
+      val endPoint = 50f //115f
+
+      val startAng = 180f + startPoint    // 245
+      val sweepAng = 50f
+
 
       val distanceText = listOf("50", "100", "150", "200", "250", "")
       var left = startX - offsetValue
@@ -266,6 +269,32 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          }
          canvas.drawText(clubType, textX, textY, Const.clubTextStyle)
       }
+   }
+
+   // TODO: Activity 에서 ArcView 사이즈를 강제로 변경시킬 경우 값 확인해보기
+   override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+      super.onSizeChanged(w, h, oldw, oldh)
+      Log.i("ArcView6", "w: $w, h: $h, oldW: $oldw, oldH: $oldh")
+   }
+
+   override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+      super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+      Log.i("ArcView6", "* widthMeasureSpec: $widthMeasureSpec, heightMeasureSpec: $heightMeasureSpec")
+
+      val minw = paddingLeft + paddingRight + suggestedMinimumWidth
+      val w = View.resolveSizeAndState(minw, widthMeasureSpec, 1)
+
+      // Whatever the width ends up being, ask for a height that would let the pie get as big as it can
+      val minh = View.MeasureSpec.getSize(w) + paddingBottom + paddingTop
+      val h: Int = View.resolveSizeAndState(minh, heightMeasureSpec, 0)
+
+      // 계산된 w, h 값
+
+      Log.i("ArcView6", "* suggestedMinWidth: $suggestedMinimumWidth , suggestedMinHeight: $suggestedMinimumHeight")
+      Log.i("ArcView6", "* paddingLeft: $paddingLeft, paddingTop: $paddingTop, paddingRight: $paddingRight, paddingBottom: $paddingBottom")
+      Log.i("ArcView6", "* w: $w, minw: $minw, h: $h, minh: $minh")
+
+      setMeasuredDimension(w, h)
    }
 
    fun setFillMiddleWeight(weight: Float) {
