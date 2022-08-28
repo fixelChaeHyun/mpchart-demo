@@ -17,4 +17,5 @@
 
     <color name="brown">#5A0600</color>
     <color name="grey">#AAB9BE</color>
+    <color name="greyTrans">#48AAB9BE</color>
 </resources>

@@ -5,11 +5,12 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import kotlin.math.cos
 import kotlin.math.sin
 
 
-class BallCustomView constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class BallCustomView constructor(context: Context, attrs: AttributeSet?) : View(context, attrs) {
    private val TAG: String = this::class.java.simpleName
 
 
@@ -35,14 +36,16 @@ class BallCustomView constructor(context: Context, attrs: AttributeSet) : View(c
       val startX = 0f
       val startY = 0f
 
-      // Draw Guide Lines
-      canvas.drawLine(startX, startY, startX + width, startY, Const.guideLineBlue)
-      canvas.drawLine(startX, startY, startX, startY + height, Const.guideLineBlue)
-      canvas.drawLine(width.toFloat(), height.toFloat(), startX, startY + height, Const.guideLineBlue)
-      canvas.drawLine(width.toFloat(), height.toFloat(), startX + width, startY, Const.guideLineBlue)
+      if (centerGridLine) {
+         // Draw Guide Lines
+         canvas.drawLine(startX, startY, startX + width, startY, Const.guideLineBlue)
+         canvas.drawLine(startX, startY, startX, startY + height, Const.guideLineBlue)
+         canvas.drawLine(width.toFloat(), height.toFloat(), startX, startY + height, Const.guideLineBlue)
+         canvas.drawLine(width.toFloat(), height.toFloat(), startX + width, startY, Const.guideLineBlue)
 
 //      canvas.drawLine(startX, startY, width.toFloat(), height.toFloat(), Const.guideLineBlue)
 //      canvas.drawLine(startX, height.toFloat(), startX + width, startY, Const.guideLineBlue)
+      }
 
       val centerX = (startX + width.toFloat()) /2
       val centerY = (startY + height.toFloat()) /2
@@ -60,7 +63,7 @@ class BallCustomView constructor(context: Context, attrs: AttributeSet) : View(c
 
       }
 
-      val ballRadius = (centerX-startX)*0.995f
+      val ballRadius = (centerX-startX)*0.95f
 
       canvas.drawCircle(centerX, centerY, ballRadius, Const.circleLine)
       Const.ballColors[0].color = text.colorCode
@@ -112,6 +115,5 @@ class BallCustomView constructor(context: Context, attrs: AttributeSet) : View(c
 
       setMeasuredDimension(w, h)
    }
-
 
 }

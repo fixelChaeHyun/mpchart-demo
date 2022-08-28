@@ -1,15 +1,17 @@
 package com.example.msc_chart_demo
 
+import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
+import androidx.core.view.marginBottom
 import java.lang.Exception
 import java.util.*
+import kotlin.math.cos
+import kotlin.math.sin
 
 class Circle2Activity : AppCompatActivity() {
     lateinit var arcView: ArcView7
@@ -17,6 +19,9 @@ class Circle2Activity : AppCompatActivity() {
     lateinit var button : Button
     lateinit var buttonShot : Button
     lateinit var textDistance : TextView
+
+    lateinit var linearLayout: LinearLayout
+    lateinit var ballCustomView: BallCustomView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,6 +125,57 @@ class Circle2Activity : AppCompatActivity() {
         arcView.viewHeight = arcView.height.toFloat()
         Log.e("WindowScreen", "display.width: ${displaySize.x}, display.height: ${displaySize.y}")
         Log.e("WindowScreen", "arcView.width: ${arcView.width}, arcView.height: ${arcView.height} \n-> measuredWidth: ${arcView.measuredWidth} , measuredHeight: ${arcView.measuredHeight}")
+
+        linearLayout = findViewById(R.id.linearLayout)
+
+        var ballSize = 55
+        ballCustomView = BallCustomView(context = this, null)
+        ballCustomView.scale = 0.08f
+        ballCustomView.layoutParams = LinearLayout.LayoutParams(ballSize, ballSize)
+        ballCustomView.setOnClickListener {
+            Toast.makeText(this, "ClubText:${ballCustomView.text.clubTypeText}", Toast.LENGTH_SHORT).show()
+        }
+        ballCustomView.x = linearLayout.layoutParams.width / 2f
+        ballCustomView.y = linearLayout.layoutParams.height / 2f
+
+
+        val distance = 150
+        val rad = 15 - 90
+
+        val distanceRatio = linearLayout.layoutParams.height / 2f
+        val distanceHeight = 150f
+        val distanceRatioWidth = linearLayout.layoutParams.width / 2f
+        var result = distanceRatio * distance / distanceHeight
+        var resultWidth = distanceRatioWidth * distance / distanceHeight
+
+        val endY = linearLayout.layoutParams.height
+
+        val x = resultWidth * cos(Math.toRadians(rad.toDouble()))
+        val y = result * sin(Math.toRadians(rad.toDouble()))
+
+        val ballDistanceX = x.toFloat() + linearLayout.layoutParams.width / 2f
+        val ballDistanceY = y.toFloat() + endY
+
+        ballCustomView.x = ballDistanceX
+        ballCustomView.y = ballDistanceY
+        ballCustomView.requestLayout()
+        linearLayout.addView(ballCustomView)
+
+        Toast.makeText(this, "ballX: $ballDistanceX, ballY: $ballDistanceY", Toast.LENGTH_SHORT).show()
+
+        val ballCustomView2 = BallCustomView(this, null).apply {
+            text = ClubTypeColorData("W3", Color.argb(255, 37, 84, 253))
+            scale = 0.06f
+            layoutParams = LinearLayout.LayoutParams(ballSize, ballSize)
+            ballCustomView.requestLayout()
+            setOnClickListener {
+                Toast.makeText(it.context, "Ball2.ClubText: ${text.clubTypeText}", Toast.LENGTH_SHORT).show()
+            }
+            this.x = linearLayout.layoutParams.width / 2f - 30 -100
+            this.y = linearLayout.layoutParams.height / 2f - 30 -200
+        }
+
+        linearLayout.addView(ballCustomView2)
 
 
     }

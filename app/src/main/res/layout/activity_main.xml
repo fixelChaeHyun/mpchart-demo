@@ -111,20 +111,43 @@
         android:text="10번.Circle->Rect"
         android:textSize="10dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toStartOf="@id/btn10"
+        app:layout_constraintEnd_toStartOf="@id/btn_ball_custom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_eighth" />
 
     <Button
-        android:id="@+id/btn10"
+        android:id="@+id/btn_ball_custom"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="11번"
+        android:text="11번.BallCustom"
         android:textSize="10dp"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_circle_rect"
         app:layout_constraintTop_toBottomOf="@id/btn_eighth" />
+
+    <Button
+        android:id="@+id/btn_12"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="12번"
+        android:textSize="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_circle_rect" />
+
+    <Button
+        android:id="@+id/btn_13"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="13번"
+        android:textSize="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_12"
+        app:layout_constraintTop_toBottomOf="@id/btn_circle_rect" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

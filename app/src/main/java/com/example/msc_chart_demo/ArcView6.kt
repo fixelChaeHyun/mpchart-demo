@@ -111,13 +111,13 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
 
       Log.e(TAG, "offsetWidth : $offsetValue , offsetHeight: $offsetHeight , startX: $startX, startY: $startY")
       val startPoint = 65f
-      val endPoint = 50f //115f
+      val endPoint = 115f
 
-      val startAng = 180f + startPoint    // 245
-      val sweepAng = 50f
+      val startAng = 360f - endPoint    // 245
+      val sweepAng = endPoint - startPoint
 
 
-      val distanceText = listOf("50", "100", "150", "200", "250", "")
+      val distanceText = listOf("50", "100", "150", "200", "250", "300")
       var left = startX - offsetValue
       var top = startY - offsetHeight
       var right = startX + offsetValue

@@ -5,11 +5,13 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import kotlin.math.cos
 import kotlin.math.sin
 
 
-class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class ArcView7 constructor(context: Context, val attrs: AttributeSet) : View(context, attrs) {
    private val TAG: String = this::class.java.simpleName
 
    var screenHeight: Float = 0f
@@ -22,6 +24,7 @@ class ArcView7 constructor(context: Context, attrs: AttributeSet) : View(context
    var ratioRadius = 0f
    var ratioDistanceWidth = 0f
    var ratioRadiusWidth = 0f
+
 
    private val shotData : ArrayList<BallShotData> = arrayListOf()
 
