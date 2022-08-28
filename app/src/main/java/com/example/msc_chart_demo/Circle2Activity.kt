@@ -3,15 +3,17 @@ package com.example.msc_chart_demo
 import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.marginBottom
-import java.lang.Exception
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import java.util.*
 import kotlin.math.cos
 import kotlin.math.sin
+
 
 class Circle2Activity : AppCompatActivity() {
     lateinit var arcView: ArcView7
@@ -22,10 +24,16 @@ class Circle2Activity : AppCompatActivity() {
 
     lateinit var linearLayout: LinearLayout
     lateinit var ballCustomView: BallCustomView
+    lateinit var testLayout: LinearLayout
+    lateinit var constraintLayout: ConstraintLayout
+    lateinit var constraintSet: ConstraintSet
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_circle2)
+
+        constraintLayout = findViewById(R.id.constraintLayout)
+        constraintSet = ConstraintSet()
 
         val listener = object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
@@ -128,6 +136,17 @@ class Circle2Activity : AppCompatActivity() {
 
         linearLayout = findViewById(R.id.linearLayout)
 
+        testLayout = LinearLayout(this)
+        testLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        testLayout.orientation = LinearLayout.VERTICAL
+        testLayout.setBackgroundColor(Color.rgb(130, 130, 130))
+
+
+
+        testLayout.requestLayout()
+
+        Log.i("Circle2Activity", "testLayout.size : width: ${testLayout.layoutParams.width} , height: ${testLayout.layoutParams.height} / linear.width: ${linearLayout.layoutParams.width}, linear.height: ${linearLayout.layoutParams.height} / arcView.width: ${arcView.layoutParams.width}, arcView.height: ${arcView.layoutParams.height}")
+
         var ballSize = 55
         ballCustomView = BallCustomView(context = this, null)
         ballCustomView.scale = 0.08f
@@ -177,6 +196,42 @@ class Circle2Activity : AppCompatActivity() {
 
         linearLayout.addView(ballCustomView2)
 
+        val ballCustomView3 = BallCustomView(this, null).apply {
+            text = ClubTypeColorData("W6", Color.argb(255, 70, 120, 253))
+            scale = 0.06f
+            layoutParams = LinearLayout.LayoutParams(ballSize, ballSize)
+            ballCustomView.requestLayout()
+            setOnClickListener {
+                Toast.makeText(it.context, "Ball2.ClubText: ${text.clubTypeText}", Toast.LENGTH_SHORT).show()
+            }
+            this.x = linearLayout.layoutParams.width / 2f - 30 + 150
+            this.y = linearLayout.layoutParams.height / 2f - 30 -200
+        }
+
+        testLayout.addView(ballCustomView3)
+//        linearLayout.addView(ballCustomView3)
+        testLayout.requestLayout()
+        val layoutParam = ConstraintLayout.LayoutParams(
+            arcView.layoutParams.width - 100,
+            arcView.layoutParams.height - 100
+        )
+        layoutParam.rightToRight = constraintLayout.id
+
+        addContentView(testLayout, layoutParam)
+
+        val constParam = layoutParam as ConstraintLayout.LayoutParams
+        constParam.leftToLeft = ConstraintSet.PARENT_ID
+        constParam.startToStart = constraintLayout.id
+        constParam.topToTop = constraintLayout.id
+        constParam.bottomToBottom = ConstraintSet.PARENT_ID
+        testLayout.requestLayout()
+
+        constraintSet.clone(constraintLayout)
+        constraintSet.clear(constraintLayout.id)
+        constraintSet.connect(testLayout.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        constraintSet.connect(testLayout.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+        constraintSet.connect(testLayout.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+        constraintSet.applyTo(constraintLayout)
 
     }
 }

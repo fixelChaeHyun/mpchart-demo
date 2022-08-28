@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import java.lang.Exception
 import java.util.*
 
@@ -59,6 +60,11 @@ class CircleActivity : AppCompatActivity() {
             e.printStackTrace()
 
         }
+        val layoutParam = ConstraintLayout.LayoutParams(
+            arcView.layoutParams.width,
+            arcView.layoutParams.height
+        )
+        addContentView(arcView.container, layoutParam)
 
         seekbar = findViewById(R.id.seekbar)
         seekbar.setOnSeekBarChangeListener(listener)

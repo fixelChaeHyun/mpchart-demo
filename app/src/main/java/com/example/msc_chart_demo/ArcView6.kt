@@ -5,6 +5,9 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.Toast
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -22,8 +25,26 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
    var ratioRadius = 0f
 
    private val shotData : ArrayList<BallShotData> = arrayListOf()
+   private val ballCustomView = BallCustomView(context = this.context, null)
+
+   var container: LinearLayout = LinearLayout(this.context)
 
    init {
+      container.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
+      container.orientation = LinearLayout.VERTICAL
+      container.setBackgroundColor(resources.getColor(R.color.greyTrans))
+
+      var ballSize = 70
+
+      ballCustomView.text =  ClubTypeColorData("W3", Color.argb(255, 37, 84, 253))
+      ballCustomView.scale = 0.08f
+      ballCustomView.layoutParams = LinearLayout.LayoutParams(ballSize, ballSize)
+//      ballCustomView.setOnClickListener {
+//         Toast.makeText(this, "ClubText:${ballCustomView.text.clubTypeText}", Toast.LENGTH_SHORT).show()
+//      }
+
+      container.addView(ballCustomView)
+
    }
 
    var fillPercentMiddle: Float = 1.0f
@@ -231,6 +252,16 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
 //      viewHeight = this.height.toFloat()
 
       Log.e(TAG, "DRAW_END > arcView.width: ${width}, arcView.height: ${height} , measuredWidth: ${measuredWidth} , measuredHeight: ${measuredHeight}")
+      Log.e(TAG," ContainerSize > width: ${container.width} , height: ${container.height}")
+
+      container.x = this.x
+      container.y = this.y
+
+      ballCustomView.x = container.layoutParams.width / 2f
+      ballCustomView.y = container.layoutParams.height / 2f
+      ballCustomView.invalidate()
+
+      container.requestLayout()
    }
 
    private fun drawShotData(canvas: Canvas, targetDistance: Float, targetRad: Double, ratioRadius: Float, ratioDistance: Float, paint: Paint = Const.ballColors[1], clubType: String, drawLine: Boolean = false) {
