@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mscchartdemo">
         <activity
+            android:name=".DemoBallDrawActivity"
+            android:exported="false" />
+        <activity
             android:name=".TextTestActivity"
             android:exported="false" />
         <activity

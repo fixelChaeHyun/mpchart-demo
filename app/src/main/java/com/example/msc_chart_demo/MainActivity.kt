@@ -115,7 +115,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(textTest)
             }
             R.id.btn_12 -> {
-
+                Toast.makeText(this, "Ball Draw", Toast.LENGTH_SHORT).show()
+                val demoBallDrawActivity = Intent(this, DemoBallDrawActivity::class.java)
+                startActivity(demoBallDrawActivity)
             }
             R.id.btn_13 -> {
 

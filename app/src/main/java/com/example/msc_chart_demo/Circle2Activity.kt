@@ -139,7 +139,7 @@ class Circle2Activity : AppCompatActivity() {
         testLayout = LinearLayout(this)
         testLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         testLayout.orientation = LinearLayout.VERTICAL
-        testLayout.setBackgroundColor(Color.rgb(130, 130, 130))
+        testLayout.setBackgroundColor(Color.argb(30,250, 250, 250))
 
 
 
@@ -147,12 +147,12 @@ class Circle2Activity : AppCompatActivity() {
 
         Log.i("Circle2Activity", "testLayout.size : width: ${testLayout.layoutParams.width} , height: ${testLayout.layoutParams.height} / linear.width: ${linearLayout.layoutParams.width}, linear.height: ${linearLayout.layoutParams.height} / arcView.width: ${arcView.layoutParams.width}, arcView.height: ${arcView.layoutParams.height}")
 
-        var ballSize = 55
+        var ballSize = 65
         ballCustomView = BallCustomView(context = this, null)
         ballCustomView.scale = 0.08f
         ballCustomView.layoutParams = LinearLayout.LayoutParams(ballSize, ballSize)
         ballCustomView.setOnClickListener {
-            Toast.makeText(this, "ClubText:${ballCustomView.text.clubTypeText}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Ball1.클럽명:${ballCustomView.text.clubTypeText}", Toast.LENGTH_SHORT).show()
         }
         ballCustomView.x = linearLayout.layoutParams.width / 2f
         ballCustomView.y = linearLayout.layoutParams.height / 2f
@@ -188,7 +188,7 @@ class Circle2Activity : AppCompatActivity() {
             layoutParams = LinearLayout.LayoutParams(ballSize, ballSize)
             ballCustomView.requestLayout()
             setOnClickListener {
-                Toast.makeText(it.context, "Ball2.ClubText: ${text.clubTypeText}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(it.context, "Ball2.클럽명: ${text.clubTypeText}", Toast.LENGTH_SHORT).show()
             }
             this.x = linearLayout.layoutParams.width / 2f - 30 -100
             this.y = linearLayout.layoutParams.height / 2f - 30 -200
@@ -198,11 +198,11 @@ class Circle2Activity : AppCompatActivity() {
 
         val ballCustomView3 = BallCustomView(this, null).apply {
             text = ClubTypeColorData("W6", Color.argb(255, 70, 120, 253))
-            scale = 0.06f
+            scale = 0.08f
             layoutParams = LinearLayout.LayoutParams(ballSize, ballSize)
             ballCustomView.requestLayout()
             setOnClickListener {
-                Toast.makeText(it.context, "Ball2.ClubText: ${text.clubTypeText}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(it.context, "Ball3.클럽명: ${text.clubTypeText}", Toast.LENGTH_SHORT).show()
             }
             this.x = linearLayout.layoutParams.width / 2f - 30 + 150
             this.y = linearLayout.layoutParams.height / 2f - 30 -200
@@ -210,28 +210,38 @@ class Circle2Activity : AppCompatActivity() {
 
         testLayout.addView(ballCustomView3)
 //        linearLayout.addView(ballCustomView3)
-        testLayout.requestLayout()
+//        testLayout.requestLayout()
+        // 회색 레이아웃 -> ArcView 똑같은 크기로 만듬.
         val layoutParam = ConstraintLayout.LayoutParams(
-            arcView.layoutParams.width - 100,
-            arcView.layoutParams.height - 100
+            arcView.layoutParams.width,
+            arcView.layoutParams.height
         )
+        layoutParam.topToTop = constraintLayout.id
         layoutParam.rightToRight = constraintLayout.id
+        layoutParam.leftToLeft = constraintLayout.id
+        layoutParam.bottomToBottom = constraintLayout.id
 
-        addContentView(testLayout, layoutParam)
 
-        val constParam = layoutParam as ConstraintLayout.LayoutParams
-        constParam.leftToLeft = ConstraintSet.PARENT_ID
-        constParam.startToStart = constraintLayout.id
-        constParam.topToTop = constraintLayout.id
-        constParam.bottomToBottom = ConstraintSet.PARENT_ID
+        testLayout.layoutParams = layoutParam
+
+        constraintLayout.addView(testLayout)
+//        addContentView(testLayout, layoutParam)
+
+//        val constParam = layoutParam as ConstraintLayout.LayoutParams
+//        constParam.leftToLeft = ConstraintSet.PARENT_ID
+//        constParam.startToStart = constraintLayout.id
+//        constParam.topToTop = constraintLayout.id
+//        constParam.bottomToBottom = ConstraintSet.PARENT_ID
+//        testLayout.layoutParams = constParam
         testLayout.requestLayout()
-
-        constraintSet.clone(constraintLayout)
-        constraintSet.clear(constraintLayout.id)
-        constraintSet.connect(testLayout.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
-        constraintSet.connect(testLayout.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-        constraintSet.connect(testLayout.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
-        constraintSet.applyTo(constraintLayout)
+        constraintLayout.requestLayout()
+//
+//        constraintSet.clone(constraintLayout)
+//        constraintSet.clear(constraintLayout.id)
+//        constraintSet.connect(testLayout.id, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+//        constraintSet.connect(testLayout.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+//        constraintSet.connect(testLayout.id, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+//        constraintSet.applyTo(constraintLayout)
 
     }
 }
