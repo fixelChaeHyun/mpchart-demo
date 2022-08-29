@@ -8,7 +8,7 @@
 
     <Button
         android:id="@+id/btn_first"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="1번"
         android:textSize="10dp"
@@ -19,7 +19,7 @@
 
     <Button
         android:id="@+id/btn_second"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="2번"
         android:textSize="10dp"
@@ -30,7 +30,7 @@
 
     <Button
         android:id="@+id/btn_third"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="3번"
         android:textSize="10dp"
@@ -41,7 +41,7 @@
 
     <Button
         android:id="@+id/btn_fourth"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="4번"
         android:textSize="10dp"
@@ -52,7 +52,7 @@
 
     <Button
         android:id="@+id/btn_fifth"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="5번"
         android:textSize="10dp"
@@ -147,6 +147,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_12"
         app:layout_constraintTop_toBottomOf="@id/btn_circle_rect" />
+
+    <Button
+        android:id="@+id/btn_14"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="14번"
+        android:textSize="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toStartOf="@id/btn_15"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_12" />
+
+    <Button
+        android:id="@+id/btn_15"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="15번"
+        android:textSize="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_14"
+        app:layout_constraintTop_toBottomOf="@id/btn_12" />
 
 
 

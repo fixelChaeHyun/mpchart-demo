@@ -120,7 +120,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(demoBallDrawActivity)
             }
             R.id.btn_13 -> {
-
+                Toast.makeText(this, "ArcView Draw", Toast.LENGTH_SHORT).show()
+                val arcViewActivity = Intent(this, CustomArcViewActivity::class.java)
+                startActivity(arcViewActivity)
             }
         }
     }
