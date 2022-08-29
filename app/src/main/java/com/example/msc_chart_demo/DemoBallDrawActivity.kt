@@ -31,10 +31,7 @@ class DemoBallDrawActivity : AppCompatActivity() {
             }
 
             val viewScale = 1f / progress.toFloat()
-            circleBallImageView.viewScale = viewScale
-            circleBallImageView.layoutParams.width = (initialWidth * viewScale).toInt()
-            circleBallImageView.layoutParams.height = (initialHeight * viewScale).toInt()
-            circleBallImageView.requestLayout()
+            circleBallImageView.redrawImageView((initialWidth * viewScale).toInt(), (initialHeight * viewScale).toInt(), viewScale)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -86,8 +83,9 @@ class DemoBallDrawActivity : AppCompatActivity() {
         Log.i(TAG, " ballView.width: ${circleBallImageView.width}, ballView.height: ${circleBallImageView.height}")
 
 
-        initialWidth = Math.min(displaySize.x, displaySize.y) * 0.8f
-        initialHeight = Math.min(displaySize.x, displaySize.y) * 0.8f
+        // screen 사이즈의 0.9 크기를 CircleBalLImageView 로 설정한다.
+        initialWidth = Math.min(displaySize.x, displaySize.y) * 0.9f
+        initialHeight = Math.min(displaySize.x, displaySize.y) * 0.9f
 
         buttonTitle = findViewById(R.id.btn_title)
         buttonTitle.setOnClickListener {

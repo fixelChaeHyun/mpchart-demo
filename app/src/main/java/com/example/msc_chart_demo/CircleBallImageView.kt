@@ -18,11 +18,12 @@ class CircleBallImageView : View {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     private val defaultFontSize = 400f
-    private val defaultCircleRatio = 0.95f
+    private val defaultCirclePercent = 0.95f
+    private val defaultOutlinePercent = 0.02f
+    private var showGridLine = false
+    private var fontScale = 1f
     var viewScale = 1f
-    var fontScale = 1f
     var zoomScale = 1f
-    var showGridLine = false
 
     var ballData: CustomBallData = CustomBallData("1")
 
@@ -58,7 +59,7 @@ class CircleBallImageView : View {
     private val ballOutlinePaint = Paint().apply {
         color = Color.argb(255, 230, 230, 230)      // Gray
         style = Paint.Style.STROKE
-        strokeWidth = defaultFontSize * 0.01f * viewScale * zoomScale
+        strokeWidth = defaultFontSize * defaultOutlinePercent * viewScale * zoomScale
         isAntiAlias = true
     }
 
@@ -103,35 +104,11 @@ class CircleBallImageView : View {
         val centerX = (startX + width) / 2f
         val centerY = (startY + height) / 2f
 
-        // Circle 그리기
-        val ballRadius = (centerX - startX) * defaultCircleRatio * zoomScale
-        ballPaint.color = ballData.colorCode
-        canvas.drawCircle(centerX, centerY, ballRadius, ballPaint)
-
-        if (ballData.showOutline) {
-            ballOutlinePaint.strokeWidth = defaultFontSize * 0.01f * viewScale * zoomScale
-            canvas.drawCircle(centerX, centerY, ballRadius, ballOutlinePaint)
-        }
-
-        // Text 그리기
-        textPaint.textSize = defaultFontSize * fontScale * viewScale * zoomScale
-        val fontMetrics: Paint.FontMetrics = textPaint.fontMetrics
-        Log.d(TAG, "FontMetrics > top: ${fontMetrics.top}, bottom: ${fontMetrics.bottom}, ascent: ${fontMetrics.ascent}, descent: ${fontMetrics.descent}, leading: ${fontMetrics.leading}")
-        val fontHeight = fontMetrics.bottom - fontMetrics.top
-        val distance = fontHeight/2 - fontMetrics.bottom
-        canvas.drawText(ballData.clubTypeText, centerX, centerY + distance, textPaint)
-
-
+        drawBall(canvas, startX, centerX, centerY)
+        drawText(canvas, centerX, centerY)
 
         if (showGridLine) {
-            canvas.drawLine(startX, startY, startX + width, startY, viewBoundaryLinePaint)
-            canvas.drawLine(startX, startY, startX, startY + height, viewBoundaryLinePaint)
-            canvas.drawLine(width.toFloat(), height.toFloat(), startX, startY + height, viewBoundaryLinePaint)
-            canvas.drawLine(width.toFloat(), height.toFloat(), startX + width, startY, viewBoundaryLinePaint)
-
-            // 가운데 격자선
-            canvas.drawLine(centerX, startY, centerX, startY + height, viewGuideLinePaint)
-            canvas.drawLine(startX, centerY, startX + width, centerY, viewGuideLinePaint)
+            drawGridLine(canvas, startX, startY)
         }
 
     }
@@ -139,5 +116,51 @@ class CircleBallImageView : View {
     fun toggleGridLine() {
         showGridLine = !showGridLine
         invalidate()
+    }
+
+    fun setScaleFont(scale: Float) {
+        this.fontScale = scale
+    }
+
+    private fun drawBall(canvas: Canvas, startX: Float, centerX: Float, centerY: Float) {
+        val ballRadius = (centerX - startX) * defaultCirclePercent * zoomScale
+        ballPaint.color = ballData.colorCode
+        canvas.drawCircle(centerX, centerY, ballRadius, ballPaint)
+
+        if (ballData.showOutline) {
+            ballOutlinePaint.strokeWidth = defaultFontSize * defaultOutlinePercent * viewScale * zoomScale
+            canvas.drawCircle(centerX, centerY, ballRadius, ballOutlinePaint)
+        }
+    }
+
+    private fun drawText(canvas: Canvas, centerX: Float, centerY: Float) {
+        textPaint.textSize = defaultFontSize * fontScale * viewScale * zoomScale
+        val fontMetrics: Paint.FontMetrics = textPaint.fontMetrics
+        Log.d(TAG, "FontMetrics > top: ${fontMetrics.top}, bottom: ${fontMetrics.bottom}, ascent: ${fontMetrics.ascent}, descent: ${fontMetrics.descent}, leading: ${fontMetrics.leading}")
+        val fontHeight = fontMetrics.bottom - fontMetrics.top
+        val distance = fontHeight/2 - fontMetrics.bottom
+        canvas.drawText(ballData.clubTypeText, centerX, centerY + distance, textPaint)
+    }
+
+    private fun drawGridLine(canvas: Canvas, startX: Float, startY: Float) {
+        canvas.drawLine(startX, startY, startX + width, startY, viewBoundaryLinePaint)
+        canvas.drawLine(startX, startY, startX, startY + height, viewBoundaryLinePaint)
+        canvas.drawLine(width.toFloat(), height.toFloat(), startX, startY + height, viewBoundaryLinePaint)
+        canvas.drawLine(width.toFloat(), height.toFloat(), startX + width, startY, viewBoundaryLinePaint)
+
+        val centerX = (startX + width) / 2f
+        val centerY = (startY + height) / 2f
+
+        // 가운데 격자선
+        canvas.drawLine(centerX, startY, centerX, startY + height, viewGuideLinePaint)
+        canvas.drawLine(startX, centerY, startX + width, centerY, viewGuideLinePaint)
+    }
+
+    fun redrawImageView(width: Int, height: Int, viewScale: Float, fontScale: Float = 1f) {
+        this.viewScale = viewScale
+        this.fontScale = fontScale
+        layoutParams.width = width
+        layoutParams.height = height
+        requestLayout()
     }
 }
