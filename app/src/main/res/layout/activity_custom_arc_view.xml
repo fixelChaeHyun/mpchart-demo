@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootLayout"
-    android:background="@color/green"
+    android:background="@color/teal_500"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     tools:context=".CustomArcViewActivity">
 
     <Button
@@ -48,5 +49,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="visible"
         />
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:background="@color/greyTrans"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.example.msc_chart_demo.CustomArcView
+            android:id="@+id/customArcView"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            />
+    </FrameLayout>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

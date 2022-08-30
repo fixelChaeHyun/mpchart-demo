@@ -81,7 +81,7 @@ object Const {
 
     /** Paint : Text Style */
     val textSizeForDistance: Float = 32f
-    val textSizeForClub: Float = 20f
+    val textSizeForClub: Float = 25f
 
     val distanceTextStyle = Paint().apply {
         strokeWidth = 0.5f
@@ -100,7 +100,7 @@ object Const {
     }
 
     val clubTextStyle = Paint().apply {
-        strokeWidth = 0.45f
+        strokeWidth = 0.6f
         color = Color.parseColor(colorWhite)
         style = Paint.Style.FILL_AND_STROKE
         textSize = textSizeForClub

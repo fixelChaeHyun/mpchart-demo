@@ -25,8 +25,9 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
    var ratioRadius = 0f
 
    private val shotData : ArrayList<BallShotData> = arrayListOf()
-   private val ballCustomView = BallCustomView(context = this.context, null)
 
+
+   private val ballCustomView = BallCustomView(context = this.context, null)
    var container: LinearLayout = LinearLayout(this.context)
 
    init {
@@ -39,17 +40,18 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       ballCustomView.text =  ClubTypeColorData("W3", Color.argb(255, 37, 84, 253))
       ballCustomView.scale = 0.08f
       ballCustomView.layoutParams = LinearLayout.LayoutParams(ballSize, ballSize)
-//      ballCustomView.setOnClickListener {
-//         Toast.makeText(this, "ClubText:${ballCustomView.text.clubTypeText}", Toast.LENGTH_SHORT).show()
-//      }
+      ballCustomView.setOnClickListener {
+         Toast.makeText(this.context, "ClubText:${ballCustomView.text.clubTypeText}", Toast.LENGTH_SHORT).show()
+      }
 
       container.addView(ballCustomView)
-
+      container.visibility = View.GONE
    }
 
    var fillPercentMiddle: Float = 1.0f
    var validAreaForShotData = false
    var setLongClick = false
+   var showLayer = false
 
 
    override fun onDraw(canvas: Canvas?) {
@@ -153,7 +155,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          if (start != count-1) {
             DrawUtil.drawArcLine2(canvas, rect2, distanceText[start])
          } else {
-            DrawUtil.drawArcLine2(canvas, rect2, distanceText[start], Const.graphArcLine3)
+            DrawUtil.drawArcLine2(canvas, rect2, distanceText[start], Const.graphArcLine)
             left += (offsetValue * 1.0).toFloat()
             top += (offsetHeight * 1.0).toFloat()
             right -= (offsetValue * 1.0).toFloat()
@@ -215,53 +217,22 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          drawShotData(canvas, ballShotData.distance, ballShotData.rad, radiusThird, 150f, ballShotData.paint, ballShotData.clubType, lineDraw)
       }
 
-//      // ===================== Draw balls...  ===========================
-//      canvas!!.drawCircle(510f, 820f, 27f, ballColors[0])
-//      canvas!!.drawText("W", 498f, 829f, clubTextStyle)
-//      canvas!!.drawCircle(500f, 300f, 27f, ballColors[0])
-//      canvas!!.drawText("i9", 490f, 309f, clubTextStyle)
-//      canvas!!.drawCircle(500f, 960f, 27f, ballColors[0])
-//      canvas!!.drawText("i9", 490f, 969f, clubTextStyle)
-//      canvas!!.drawCircle(486f, 860f, 27f, ballColors[0])
-//      canvas!!.drawText("i9", 476f, 869f, clubTextStyle)
-//
-//      canvas!!.drawCircle(720f, 150f, 27f, ballColors[3])
-//      canvas!!.drawText("i3", 710f, 156f, clubTextStyle)
-//      canvas!!.drawCircle(572f, 450f, 27f, ballColors[3])
-//      canvas!!.drawText("i3", 562f, 457f, clubTextStyle)
-//
-//      canvas!!.drawCircle(520f, 228f, 25f, ballColors[2])
-//      canvas!!.drawText("U", 510f, 238f, clubTextStyle)
-//      canvas!!.drawCircle(545f, 900f, 27f, ballColors[2])
-//      canvas!!.drawText("U", 535f, 910f, clubTextStyle)
-//
-//      canvas!!.drawCircle(630f, 650f, 25f, ballColors[0])
-//      canvas!!.drawText("W", 617f, 659f, clubTextStyle)
-//
-//      // 마지막 타구 라인 그리기
-//      canvas!!.drawLine(550f, 1400f, 300f, 300f, ballLineStyle)
-//      canvas!!.drawCircle(300f, 300f, 27f, ballColors[0])
-//      canvas!!.drawText("W", 287f, 310f, clubTextStyle)
-
-//      val fillX = 100f * fillPercentMiddle
-//      val fillY = 100f * fillPercentMiddle
-//      rectMiddle.set(100f + fillX, 100 + fillY, 1000f - fillY, 1000f - fillY)
-//      canvas!!.drawArc(rectMiddle, 240f, 60f, true, paintFillMiddle)
-
-//      viewWidth = this.width.toFloat()
-//      viewHeight = this.height.toFloat()
-
       Log.e(TAG, "DRAW_END > arcView.width: ${width}, arcView.height: ${height} , measuredWidth: ${measuredWidth} , measuredHeight: ${measuredHeight}")
       Log.e(TAG," ContainerSize > width: ${container.width} , height: ${container.height}")
 
-      container.x = this.x
-      container.y = this.y
+      if (showLayer) {
+         container.visibility = VISIBLE
+         container.x = this.x
+         container.y = this.y
 
-      ballCustomView.x = container.layoutParams.width / 2f
-      ballCustomView.y = container.layoutParams.height / 2f
-      ballCustomView.invalidate()
+         ballCustomView.x = container.layoutParams.width / 2f
+         ballCustomView.y = container.layoutParams.height / 2f
+         ballCustomView.invalidate()
+         container.requestLayout()
+      } else {
+         container.visibility = GONE
+      }
 
-      container.requestLayout()
    }
 
    private fun drawShotData(canvas: Canvas, targetDistance: Float, targetRad: Double, ratioRadius: Float, ratioDistance: Float, paint: Paint = Const.ballColors[1], clubType: String, drawLine: Boolean = false) {
@@ -281,21 +252,21 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          }
          val ballX = x.toFloat() + width.toFloat()/2
          val ballY = y.toFloat() + endY
-         canvas.drawCircle(ballX, ballY, 20f, paint)
+         canvas.drawCircle(ballX, ballY, 30f, paint)
          var textX = ballX
          var textY = ballY
          when (clubType) {
             "I9", "I6", "I3" -> {
-               textX += -8
+               textX += -10
                textY += 8
             }
             "U3" -> {
-               textX += -12
-               textY += 7
+               textX += -14
+               textY += 8
             }
             "PW", "GW" -> {
-               textX += -14
-               textY += 7
+               textX += -18
+               textY += 9
             }
          }
          canvas.drawText(clubType, textX, textY, Const.clubTextStyle)

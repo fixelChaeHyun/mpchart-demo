@@ -18,6 +18,7 @@ class CircleActivity : AppCompatActivity() {
     lateinit var arcView: ArcView6
     lateinit var seekbar : SeekBar
     lateinit var button : Button
+    lateinit var buttonLayer : Button
     lateinit var buttonShot : Button
     lateinit var textDistance : TextView
 
@@ -121,9 +122,13 @@ class CircleActivity : AppCompatActivity() {
             true
         }
 
+        buttonLayer = findViewById(R.id.btn_layer)
+        buttonLayer.setOnClickListener {
+            arcView.showLayer = !arcView.showLayer
+            arcView.invalidate()
+        }
 
         textDistance = findViewById(R.id.distanceText)
-
 
         arcView.viewWidth = arcView.width.toFloat()
         arcView.viewHeight = arcView.height.toFloat()
