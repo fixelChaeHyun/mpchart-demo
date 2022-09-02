@@ -210,12 +210,39 @@ class CustomArcView : View {
 
         drawTeeBox(canvas, teeBoxX, teeBoxY, 32f*viewScale, 70f*viewScale)
 
+
         // Draw Arc Lines
         val startAngleInput = 65f
         val endAngleInput = 115f
 
         val startAngle = 360f - endAngleInput
         val sweepAngle = endAngleInput - startAngleInput
+
+        // Draw Arc Line 15, 30
+        val distanceTxt = listOf("15", "30")
+        val distance15X = 15 * offsetValue / 50
+        val distance15Y = 15 * offsetHeight / 50
+        rectFrame = rectFrame.copy(
+            left = teeBoxX - distance15X,
+            top = teeBoxY - distance15Y,
+            right = teeBoxX + distance15X,
+            bottom = teeBoxY + distance15Y,
+            startAngle = startAngle,
+            sweepAngle = sweepAngle
+        )
+
+        canvas.drawArc(rectFrame.left, rectFrame.top, rectFrame.right, rectFrame.bottom, rectFrame.startAngle, rectFrame.sweepAngle, false, graphArcLine)
+
+        rectFrame = rectFrame.copy(
+            left = rectFrame.left - distance15X,
+            top = rectFrame.top - distance15Y,
+            right = rectFrame.right + distance15X,
+            bottom = rectFrame.bottom + distance15Y,
+            startAngle = startAngle,
+            sweepAngle = sweepAngle
+        )
+
+        canvas.drawArc(rectFrame.left, rectFrame.top, rectFrame.right, rectFrame.bottom, rectFrame.startAngle, rectFrame.sweepAngle, false, graphArcLine)
 
         val distanceText = listOf("50", "100", "150", "200", "250", "300")
         rectFrame = rectFrame.copy(
