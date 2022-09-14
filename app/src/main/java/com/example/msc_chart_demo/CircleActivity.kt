@@ -1,11 +1,14 @@
 package com.example.msc_chart_demo
 
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Point
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
@@ -56,6 +59,19 @@ class CircleActivity : AppCompatActivity() {
 
                 invalidate()
             }
+
+            arcView.animate()
+                .xBy(300f)
+                .yBy(300f)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .setDuration(1000)
+                .withStartAction {
+                    Log.e("ArcView6", "START!")
+                }
+                .withEndAction {
+                    Log.e("ArcView6", "END!")
+                }
+                .start()
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -142,4 +158,11 @@ data class BallShotData(
     val rad: Double,
     val clubType: String,
     val paint: Paint = Const.ballColors[1]
+)
+
+data class BallShotDataNew(
+    val distance: Float,
+    val rad: Double,
+    val clubType: String,
+    val color: Int = Color.argb(255, 130, 130, 130)
 )

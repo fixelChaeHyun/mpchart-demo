@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_grass"
+    android:clipChildren="false"
+    tools:context=".ArcLayoutActivity">
+
+    <Button
+        android:id="@+id/btn_shot"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Shot"
+        android:textSize="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_title"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <Button
+        android:id="@+id/btn_title"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="false"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/black"
+        android:clickable="false"
+        android:gravity="center"
+        android:textSize="10dp"
+        android:text="Arc Layout Test"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:min= "1"
+        android:max = "3"
+        android:progress="3"
+        app:layout_constraintTop_toBottomOf="@id/btn_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible"
+        />
+
+    <com.example.msc_chart_demo.CustomArcLayout
+        android:id="@+id/customArcLayout"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:clipChildren="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    </com.example.msc_chart_demo.CustomArcLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

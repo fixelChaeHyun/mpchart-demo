@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var buttonBallCustom: Button
     lateinit var button12: Button
     lateinit var button13: Button
+    lateinit var button14: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         button12.setOnClickListener(this)
         button13 = findViewById(R.id.btn_13)
         button13.setOnClickListener(this)
+
+        button14 = findViewById(R.id.btn_14)
+        button14.setOnClickListener(this)
 
     }
 
@@ -123,6 +127,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this, "ArcView Draw", Toast.LENGTH_SHORT).show()
                 val arcViewActivity = Intent(this, CustomArcViewActivity::class.java)
                 startActivity(arcViewActivity)
+            }
+            R.id.btn_14 -> {
+                Toast.makeText(this, "ArcLayout Test", Toast.LENGTH_SHORT).show()
+                val arcLayoutActivity = Intent(this, ArcLayoutActivity::class.java)
+                startActivity(arcLayoutActivity)
             }
         }
     }

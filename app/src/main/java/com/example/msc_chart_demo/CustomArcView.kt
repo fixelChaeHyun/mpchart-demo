@@ -4,7 +4,10 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -15,7 +18,7 @@ class CustomArcView : View {
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    var showGridLine: Boolean = true
+    var showGridLine: Boolean = false
     var showValidShotArea = false
 
     var viewScale: Float = 1f
@@ -24,6 +27,21 @@ class CustomArcView : View {
     var rectFrame : RectFrame = RectFrame(0f, 0f, 0f, 0f, 0f, 0f, false)
 
     val intervalArcLine = 0.16f
+
+    var testLayout: LinearLayout = LinearLayout(context)
+
+    init {
+        val layoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        testLayout.layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        testLayout.orientation = LinearLayout.VERTICAL
+        testLayout.setBackgroundColor(Color.argb(255, 1, 1, 1))
+        testLayout.requestLayout()
+
+    }
 
     private val viewBoundaryLinePaint = Paint().apply {
         strokeWidth = 3f
@@ -111,6 +129,8 @@ class CustomArcView : View {
             isAntiAlias = true
         }
     )
+
+
 
     /** Activity 에서 CustomView 의 사이즈를 강제로 변경 시켰을 때 값 확인해보기 */
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {

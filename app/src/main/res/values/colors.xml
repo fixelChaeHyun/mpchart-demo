@@ -12,6 +12,7 @@
 
     <color name="white_test">#2554FD</color>
     <color name="blue">#0334E3</color>
+    <color name="blueTrans">#4D0334E3</color>
     <color name="green">#429F4E</color>
     <color name="red">#EA002B</color>
     <color name="lightYellow">#EAD158</color>

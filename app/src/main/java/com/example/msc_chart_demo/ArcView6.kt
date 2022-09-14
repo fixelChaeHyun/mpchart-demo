@@ -1,11 +1,17 @@
 package com.example.msc_chart_demo
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
+import android.animation.TimeAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
 import android.widget.Toast
 import kotlin.math.cos
@@ -247,6 +253,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          val y = sin(Math.toRadians(rad)) * result
          Log.e("ArcView6", "!!! x,y 좌표 -> ($x, $y) / (${width.toFloat()/2 + x}, ${endY + y.toFloat()})")
 
+         /** Draw Line - Add Animation drawing lines by time. */
          if (drawLine) {
             canvas.drawLine(width.toFloat() / 2, endY, x.toFloat() + width.toFloat()/2, y.toFloat() + endY, Const.ballLineStyle)
          }
