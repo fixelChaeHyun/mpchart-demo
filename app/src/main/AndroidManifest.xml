@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mscchartdemo">
         <activity
+            android:name=".LockTestActivity"
+            android:exported="false" />
+        <activity
             android:name=".ArcLayoutActivity"
             android:exported="false" />
         <activity
