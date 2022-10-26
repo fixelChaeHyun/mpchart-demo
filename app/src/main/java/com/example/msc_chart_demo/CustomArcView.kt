@@ -170,10 +170,10 @@ class CustomArcView : View {
 
         // 세로 / 가로 비율 계산
         var heightRatio: Float = height.toFloat() / width.toFloat()
-        val calculatedWidth = width * zoomScale
+        val calculatedWidth = height * zoomScale
         val calculatedHeight = height * zoomScale
 
-        val minusWidth = width.toFloat() - calculatedWidth
+        val minusWidth = height.toFloat() - calculatedWidth
         val minusHeight = height.toFloat() - calculatedHeight
 
 
@@ -194,7 +194,7 @@ class CustomArcView : View {
 
         // offsetWidth
         val offsetValue = (calculatedWidth * intervalArcLine).toFloat()
-        val offsetHeight = ((calculatedHeight * heightRatio) * intervalArcLine).toFloat()
+        val offsetHeight = ((calculatedHeight) * intervalArcLine).toFloat() //((calculatedHeight * heightRatio) * intervalArcLine).toFloat()
 
         Log.e(TAG, "offset 확인: offsetHeight(50간격): $offsetHeight , teeBoxY: $teeBoxY , point: ${teeBoxY-offsetHeight}")
 //        canvas.drawCircle(teeBoxX, (teeBoxY-offsetHeight), 20f, blackDotPaint)        // 50 위치에 점 찍어서 확인
@@ -228,41 +228,48 @@ class CustomArcView : View {
             }
         }
 
-        drawTeeBox(canvas, teeBoxX, teeBoxY, 32f*viewScale, 70f*viewScale)
+        drawTeeBox(canvas, teeBoxX, teeBoxY, 28f*viewScale, 60f*viewScale)
 
 
         // Draw Arc Lines
-        val startAngleInput = 65f
-        val endAngleInput = 115f
+        val startAngleInput = 0f//65f
+        val endAngleInput = 180f//115f
 
         val startAngle = 360f - endAngleInput
         val sweepAngle = endAngleInput - startAngleInput
 
         // Draw Arc Line 15, 30
-        val distanceTxt = listOf("15", "30")
-        val distance15X = 15 * offsetValue / 50
-        val distance15Y = 15 * offsetHeight / 50
+        val distanceTxt = listOf("35", "30")
+        val distance35X = 35 * offsetValue / 50
+        val distance35Y = 35 * offsetHeight / 50
         rectFrame = rectFrame.copy(
-            left = teeBoxX - distance15X,
-            top = teeBoxY - distance15Y,
-            right = teeBoxX + distance15X,
-            bottom = teeBoxY + distance15Y,
+            left = teeBoxX - distance35X,
+            top = teeBoxY - distance35Y,
+            right = teeBoxX + distance35X,
+            bottom = teeBoxY + distance35Y,
             startAngle = startAngle,
             sweepAngle = sweepAngle
         )
 
         canvas.drawArc(rectFrame.left, rectFrame.top, rectFrame.right, rectFrame.bottom, rectFrame.startAngle, rectFrame.sweepAngle, false, graphArcLine)
 
-        rectFrame = rectFrame.copy(
-            left = rectFrame.left - distance15X,
-            top = rectFrame.top - distance15Y,
-            right = rectFrame.right + distance15X,
-            bottom = rectFrame.bottom + distance15Y,
-            startAngle = startAngle,
-            sweepAngle = sweepAngle
-        )
+        val rad = -75.0
+        val arcHeight = (rectFrame.bottom - rectFrame.top) / 2f
+        val textX = arcHeight * cos(Math.toRadians((rad-90.0))) + teeBoxX + (35*viewScale)  // - (60*viewScale)
+        var textY = arcHeight * sin(Math.toRadians((rad-90.0))) + teeBoxY   // + (10*viewScale)
+        Log.e(TAG, "textX : $textX , textY: $textY")
+        distanceTextStyle.textSize = textSizeForDistance * viewScale
+        canvas.drawText(distanceTxt[0], textX.toFloat(), textY.toFloat(), distanceTextStyle)
 
-        canvas.drawArc(rectFrame.left, rectFrame.top, rectFrame.right, rectFrame.bottom, rectFrame.startAngle, rectFrame.sweepAngle, false, graphArcLine)
+//        rectFrame = rectFrame.copy(
+//            left = rectFrame.left - distance15X,
+//            top = rectFrame.top - distance15Y,
+//            right = rectFrame.right + distance15X,
+//            bottom = rectFrame.bottom + distance15Y,
+//            startAngle = startAngle,
+//            sweepAngle = sweepAngle
+//        )
+//        canvas.drawArc(rectFrame.left, rectFrame.top, rectFrame.right, rectFrame.bottom, rectFrame.startAngle, rectFrame.sweepAngle, false, graphArcLine)
 
         val distanceText = listOf("50", "100", "150", "200", "250", "300")
         rectFrame = rectFrame.copy(
@@ -280,9 +287,28 @@ class CustomArcView : View {
 
             val rad = -25.0
             val arcHeight = (rectFrame.bottom - rectFrame.top) / 2f
-            val textX = arcHeight * cos(Math.toRadians((rad-90.0))) + teeBoxX - (60*viewScale)
-            val textY = arcHeight * sin(Math.toRadians((rad-90.0))) + teeBoxY + (10*viewScale)
+            var textX = arcHeight * cos(Math.toRadians((rad-90.0))) + teeBoxX - (60*viewScale)
+            var textY = arcHeight * sin(Math.toRadians((rad-90.0))) + teeBoxY + (10*viewScale)
             Log.e(TAG, "textX : $textX , textY: $textY")
+
+            if (start >= 1) {
+                textX = 45.0
+                if (start == 3) {
+                    textY += 50
+                } else if (start == 2) {
+                    textY += 130
+                } else if (start == 5) {
+                    textY -= 30
+                } else if (start == 1) {
+                    textX += 130
+                    textY += 100
+                }
+            }
+            if (start == 0) {
+                textX -= 50
+                textY += 50
+            }
+
             distanceTextStyle.textSize = textSizeForDistance * viewScale
             canvas.drawText(distanceText[start], textX.toFloat(), textY.toFloat(), distanceTextStyle)
             if (++start == count) break
@@ -328,8 +354,7 @@ class CustomArcView : View {
     fun redrawArcView(newWidth: Int, newHeight: Int, scale: Float) {
         viewScale = scale
         layoutParams.width = newWidth
-        layoutParams.height = newHeight
+        layoutParams.height = newHeight + (newWidth*0.3).toInt()
         requestLayout()
-
     }
 }

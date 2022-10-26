@@ -160,7 +160,7 @@ class CircleBallImageView : View {
         this.viewScale = viewScale
         this.fontScale = fontScale
         layoutParams.width = width
-        layoutParams.height = height
+        layoutParams.height = height + width/2
         requestLayout()
     }
 }

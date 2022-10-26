@@ -6,7 +6,7 @@
     android:background="@color/teal_500"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
+    android:clipChildren="true"
     tools:context=".CustomArcViewActivity">
 
     <Button

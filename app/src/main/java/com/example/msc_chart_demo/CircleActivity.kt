@@ -60,18 +60,18 @@ class CircleActivity : AppCompatActivity() {
                 invalidate()
             }
 
-            arcView.animate()
-                .xBy(300f)
-                .yBy(300f)
-                .setInterpolator(AccelerateDecelerateInterpolator())
-                .setDuration(1000)
-                .withStartAction {
-                    Log.e("ArcView6", "START!")
-                }
-                .withEndAction {
-                    Log.e("ArcView6", "END!")
-                }
-                .start()
+//            arcView.animate()
+//                .xBy(300f)
+//                .yBy(300f)
+//                .setInterpolator(AccelerateDecelerateInterpolator())
+//                .setDuration(1000)
+//                .withStartAction {
+//                    Log.e("ArcView6", "START!")
+//                }
+//                .withEndAction {
+//                    Log.e("ArcView6", "END!")
+//                }
+//                .start()
 
         } catch (e: Exception) {
             e.printStackTrace()

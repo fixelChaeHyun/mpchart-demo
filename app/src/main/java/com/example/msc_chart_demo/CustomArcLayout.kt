@@ -177,4 +177,8 @@ class CustomArcLayout : FrameLayout {
         ballDrawLayout.removeViewAt(index)
     }
 
+    fun redrawArc(newWidth: Int, newHeight: Int) {
+        customArcView.redrawArcView(newWidth, newHeight, 1f)
+    }
+
 }

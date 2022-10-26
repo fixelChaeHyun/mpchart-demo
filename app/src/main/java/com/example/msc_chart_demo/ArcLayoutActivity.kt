@@ -38,5 +38,9 @@ class ArcLayoutActivity : AppCompatActivity() {
             customArcLayout.clearShotLayout()
             true
         }
+
+//        customArcLayout.redrawArc(984, 984 + (984*0.3).toInt())
+        customArcLayout.layoutParams.width = 984
+        customArcLayout.layoutParams.height = 984 + (984*0.3).toInt()
     }
 }

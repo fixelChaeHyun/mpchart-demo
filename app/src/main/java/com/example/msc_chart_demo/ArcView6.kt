@@ -1,17 +1,10 @@
 package com.example.msc_chart_demo
 
-import android.animation.Animator
-import android.animation.ObjectAnimator
-import android.animation.TimeAnimator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
 import android.widget.Toast
 import kotlin.math.cos
@@ -60,6 +53,8 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
    var showLayer = false
 
 
+   var offsetHeight: Float = 0f
+   var offsetValue: Float = 0f
    override fun onDraw(canvas: Canvas?) {
       super.onDraw(canvas)
       if (canvas == null) return
@@ -98,8 +93,8 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
 
       val intervalArcLine = 0.165
 //      heightRatio = 1.toFloat()
-      val offsetValue = (widthAdjusted * intervalArcLine).toFloat()      // offset for Width (1배처리)
-      val offsetHeight = ((widthAdjusted * heightRatio) * intervalArcLine).toFloat()      // offset for Height (가로 대비 세로 배율만큼 길게 offset 설정하기)
+      offsetValue = (widthAdjusted * intervalArcLine).toFloat()      // offset for Width (1배처리)
+      offsetHeight = ((widthAdjusted * heightRatio) * intervalArcLine).toFloat()      // offset for Height (가로 대비 세로 배율만큼 길게 offset 설정하기)
 
       if (setLongClick) {
          // 좌상단, 우하단 모서리
@@ -125,6 +120,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          canvas.drawLine(width.toFloat() / 2, endY, leftTopX, leftTopY, Const.guideLineYellow)
          canvas.drawLine(width.toFloat() / 2, endY, endX, leftTopY, Const.guideLineYellow)
 
+         /** 가로 비율 선 */
          var cnt = 5
          var ratioY = startY
          while(cnt-- > 0) {
@@ -132,6 +128,25 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
             canvas.drawLine(leftTopX, ratioY, endX, ratioY, Const.ballLineStyle)
 
          }
+         /** 세로 비율선 */
+         // 중앙선
+         canvas.drawLine(width.toFloat()/2, endY, width.toFloat()/2, leftTopX, Const.ballLineStyle)
+         var offset = offsetValue
+         var lineStartX = width.toFloat()/2 - offset
+         canvas.drawLine(lineStartX, endY, lineStartX, leftTopX, Const.ballLineStyle)
+         lineStartX = width.toFloat()/2 + offset
+         canvas.drawLine(lineStartX, endY, lineStartX, leftTopX, Const.ballLineStyle)
+
+         lineStartX = width.toFloat()/2 + offset*2
+         canvas.drawLine(lineStartX, endY, lineStartX, leftTopX, Const.ballLineStyle)
+         lineStartX = width.toFloat()/2 - offset*2
+         canvas.drawLine(lineStartX, endY, lineStartX, leftTopX, Const.ballLineStyle)
+
+         lineStartX = width.toFloat()/2 + offset*3
+         canvas.drawLine(lineStartX, endY, lineStartX, leftTopX, Const.ballLineStyle)
+         lineStartX = width.toFloat()/2 - offset*3
+         canvas.drawLine(lineStartX, endY, lineStartX, leftTopX, Const.ballLineStyle)
+
       }
 
       // Draw Tee box
@@ -251,7 +266,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
 
          val x = cos(Math.toRadians(rad)) * result
          val y = sin(Math.toRadians(rad)) * result
-         Log.e("ArcView6", "!!! x,y 좌표 -> ($x, $y) / (${width.toFloat()/2 + x}, ${endY + y.toFloat()})")
+         Log.e("ArcView6", "!!! x,y 좌표 -> ($x, $y) / teeBox 추가거리: (${width.toFloat()/2 + x}, ${endY + y.toFloat()})")
 
          /** Draw Line - Add Animation drawing lines by time. */
          if (drawLine) {
@@ -259,6 +274,10 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          }
          val ballX = x.toFloat() + width.toFloat()/2
          val ballY = y.toFloat() + endY
+         Toast.makeText(context, "BallX: ${ballX-492} , BallY: ${984-ballY}\noffsetWidth: $offsetValue , offsetHeight: $offsetHeight /\n calcX: ${(492-ballX) / 50 / offsetValue} , calcY: ${(984-ballY) / 50 / offsetHeight}", Toast.LENGTH_SHORT).show()
+         Log.e("좌표", "BallX: ${ballX-492} , BallY: ${984-ballY}\noffsetWidth: $offsetValue , offsetHeight: $offsetHeight /\n calcX: ${(492-ballX) / 50 / offsetValue} , calcY: ${(984-ballY) / 50 / offsetHeight}")
+         Log.d("좌표", "티박스에서 거리BallX: ${492-ballX} , BallY: ${984-ballY}\noffsetWidth: $offsetValue , offsetHeight: $offsetHeight /\n calcX: ${x / 50 / offsetValue} , calcY: ${y / 50 / offsetHeight}")
+         Log.d("좌표", "!!! x,y 좌표 -> ($x, $y) / teeBox 추가거리: (${width.toFloat()/2 + x}, ${endY + y.toFloat()}) / teeBox 좌표(${width.toFloat()/2}, ${endY})" )
          canvas.drawCircle(ballX, ballY, 30f, paint)
          var textX = ballX
          var textY = ballY
