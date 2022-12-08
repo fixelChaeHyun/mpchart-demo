@@ -232,6 +232,7 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
       drawShotData(canvas, 100f, 0.0, radiusThird, 150f, Const.ballColors[3])
       */
 
+      /** 샷데이터 리스트 그리기 */
       shotData.forEachIndexed { index, ballShotData ->
          val lineDraw = if (shotData.size == 1) true else index == shotData.size -1
 
@@ -272,13 +273,22 @@ class ArcView6 constructor(context: Context, attrs: AttributeSet) : View(context
          if (drawLine) {
             canvas.drawLine(width.toFloat() / 2, endY, x.toFloat() + width.toFloat()/2, y.toFloat() + endY, Const.ballLineStyle)
          }
+
+
+
          val ballX = x.toFloat() + width.toFloat()/2
          val ballY = y.toFloat() + endY
+
+
+
          Toast.makeText(context, "BallX: ${ballX-492} , BallY: ${984-ballY}\noffsetWidth: $offsetValue , offsetHeight: $offsetHeight /\n calcX: ${(492-ballX) / 50 / offsetValue} , calcY: ${(984-ballY) / 50 / offsetHeight}", Toast.LENGTH_SHORT).show()
          Log.e("좌표", "BallX: ${ballX-492} , BallY: ${984-ballY}\noffsetWidth: $offsetValue , offsetHeight: $offsetHeight /\n calcX: ${(492-ballX) / 50 / offsetValue} , calcY: ${(984-ballY) / 50 / offsetHeight}")
          Log.d("좌표", "티박스에서 거리BallX: ${492-ballX} , BallY: ${984-ballY}\noffsetWidth: $offsetValue , offsetHeight: $offsetHeight /\n calcX: ${x / 50 / offsetValue} , calcY: ${y / 50 / offsetHeight}")
          Log.d("좌표", "!!! x,y 좌표 -> ($x, $y) / teeBox 추가거리: (${width.toFloat()/2 + x}, ${endY + y.toFloat()}) / teeBox 좌표(${width.toFloat()/2}, ${endY})" )
          canvas.drawCircle(ballX, ballY, 30f, paint)
+
+
+
          var textX = ballX
          var textY = ballY
          when (clubType) {

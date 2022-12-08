@@ -100,6 +100,8 @@ class CustomArcLayout : FrameLayout {
 //            Toast.makeText(context, "randomIdx : $randomIdx, offX: $offsetX, offY: $offsetY", Toast.LENGTH_SHORT).show()
             Log.w(TAG, "randomIdx : $randomIdx, offX: $offsetX, offY: $offsetY")
 
+
+            // ------------------------------- 1. BallCustomView 를 생성한다. ------------------------------------------------
             var ballCustomView = BallCustomView(context, null).apply {
                 text = clubTypeColorData
                 scale = ballScale
@@ -131,6 +133,7 @@ class CustomArcLayout : FrameLayout {
 
             animator.addUpdateListener {
                 val updateValue: Float = it.animatedFraction
+                // 가속도만큼 곱하면서 offSetX, offsetY 까지 이동함.
                 ballCustomView.x = customArcView.width/2f -ballSize/2f - offsetX * updateValue
                 ballCustomView.y = customArcView.height - ballSize/2f - offsetY * updateValue
 //                ballDrawLayout.invalidate()
