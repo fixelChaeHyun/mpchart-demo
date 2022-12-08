@@ -16,9 +16,14 @@
     <color name="green">#429F4E</color>
     <color name="red">#EA002B</color>
     <color name="lightYellow">#EAD158</color>
+    <color name="pastelGreen">#408349</color>
 
     <color name="brown">#5A0600</color>
     <color name="grey">#AAB9BE</color>
     <color name="greyTrans">#32AAB9BE</color>
     <color name="greyTransLight">#1AAAB9BE</color>
+
+    <color name="testBackground1">#804ED1FF</color>
+    <color name="testBackground2">#80D147FF</color>
+    <color name="testBackground3">#80348521</color>
 </resources>

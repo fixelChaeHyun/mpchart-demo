@@ -24,6 +24,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var button13: Button
     lateinit var button14: Button
     lateinit var button15: Button
+    lateinit var button16: Button
+    lateinit var button17: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +64,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         button15 = findViewById(R.id.btn_15)
         button15.setOnClickListener(this)
+
+        button16 = findViewById(R.id.btn_16)
+        button16.setOnClickListener(this)
+        button17 = findViewById(R.id.btn_17)
+        button17.setOnClickListener(this)
 
     }
 
@@ -141,6 +148,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 Toast.makeText(this, "Lock Test", Toast.LENGTH_SHORT).show()
                 val lockTestActivity = Intent(this, LockTestActivity::class.java)
                 startActivity(lockTestActivity)
+            }
+            R.id.btn_16 -> {
+                val launchAngleViewActivity = Intent(this, LaunchAngleViewActivity::class.java)
+                startActivity(launchAngleViewActivity)
+            }
+            R.id.btn_17 -> {
+                val launchDirectionAngleViewActivity = Intent(this, LaunchDirectionActivity::class.java)
+                startActivity(launchDirectionAngleViewActivity)
             }
         }
     }
